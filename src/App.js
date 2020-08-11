@@ -1,12 +1,14 @@
 import React from 'react';
-import Routing from './components/routing';
-import './App.css';
+import { ThemeProvider } from '@material-ui/core/styles';
+import theme from './components/temaConfig';
+import Container from './components/container';
 
 function App() {
+
   return (
-    <div className="App">
-      <Routing/>
-    </div>
+    <ThemeProvider theme={theme}>
+      <Container />
+    </ThemeProvider>
   );
 }
 
