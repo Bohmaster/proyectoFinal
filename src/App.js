@@ -1,7 +1,7 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './components/temaConfig';
-import Container from './components/container';
+import Container from './components/Container';
 
 function App() {
 
