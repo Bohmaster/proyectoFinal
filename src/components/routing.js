@@ -1,11 +1,20 @@
 import React from 'react';
-import { List, ListItem, ListItemIcon, ListItemText } from '@material-ui/core'
+import { List, ListItem, ListItemIcon, ListItemText, makeStyles } from '@material-ui/core'
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import HomeIcon from '@material-ui/icons/Home';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 
+const useStyles = makeStyles({
+    link: {
+        textDecoration: "none",
+        color: "textPrimary"
+    }
+})
+
 const Routing = () => {
+    const classes = useStyles();
+
     return (
         <div>
             <Router>
@@ -16,7 +25,7 @@ const Routing = () => {
                             <HomeIcon/>
                         </ListItemIcon>
                         <ListItemText>
-                            <Link to='/'>Home</Link>
+                            <Link to='/' className={classes.link}>Inicio</Link>
                         </ListItemText>
                     </ListItem>
 
@@ -25,7 +34,7 @@ const Routing = () => {
                             <FastfoodIcon />
                         </ListItemIcon>
                         <ListItemText>
-                            <Link to='/productos'>Productos</Link>
+                            <Link to='/productos' className={classes.link}>Productos</Link>
                         </ListItemText>
                     </ListItem>
 
@@ -34,7 +43,7 @@ const Routing = () => {
                             <AttachMoneyIcon />
                         </ListItemIcon>
                         <ListItemText>
-                            <Link to='/ventas'>Ventas</Link>
+                            <Link to='/ventas' className={classes.link}>Ventas</Link>
                         </ListItemText>
                     </ListItem>
 
