@@ -31,30 +31,30 @@ const Fixdrawer = () => {
             anchor="left">
             <div className={classes.toolbar}></div>
             <List component='nav'>
-                <ListItem button>
-                    <ListItemIcon>
-                        <HomeIcon />
-                    </ListItemIcon>
-                    <ListItemText>
-                        <Link to='/' className={classes.link}>Inicio</Link>
-                    </ListItemText>
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <FastfoodIcon />
-                    </ListItemIcon>
-                    <ListItemText>
-                        <Link to='/productos' className={classes.link}>Productos</Link>
-                    </ListItemText>
-                </ListItem>
-                <ListItem button>
-                    <ListItemIcon>
-                        <AttachMoneyIcon />
-                    </ListItemIcon>
-                    <ListItemText>
-                        <Link to='/ventas' className={classes.link}>Ventas</Link>
-                    </ListItemText>
-                </ListItem>
+                <Link to='/' className={classes.link}>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <HomeIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Inicio" />
+                    </ListItem>
+                </Link>
+                <Link to='/products' className={classes.link}>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <FastfoodIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Productos" />
+                    </ListItem>
+                </Link>
+                <Link to='/sails' className={classes.link}>
+                    <ListItem button>
+                        <ListItemIcon>
+                            <AttachMoneyIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Ventas"/>
+                    </ListItem>
+                </Link>
             </List>
         </Drawer>
     );
