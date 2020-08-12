@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
     toolbar: theme.mixins.toolbar,
     link: {
         textDecoration: "none",
+        color: "inherit"
     }
 }))
 
