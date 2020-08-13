@@ -3,6 +3,8 @@ import { Switch, Route } from 'react-router-dom';
 import AppContext from './AppContext';
 import CreateProduct from './products/create';
 import { LinearProgress } from '@material-ui/core';
+import Login from './Login';
+import ProductList from './products/list';
 
 const Routing = () => {
     const context = useContext(AppContext);
@@ -14,9 +16,11 @@ const Routing = () => {
                 ) : null
             }
             <Switch>
-                <Route exact path='/' render={() => <h1>Hola</h1>} />
-                <Route exact path='/products' component={CreateProduct} />
-                <Route exact path='/sails' render={() => <h1>ventas</h1>} />
+                <Route exact path='/' render={() => <h1>/</h1>}/>
+                <Route exact path='/products/create' component={CreateProduct}/>
+                <Route exact path='/login' component={Login}/>
+                <Route exact path='/products/list' component={ProductList} />
+                <Route exact path='/sales' render={() => <h1>ventas</h1>} />
             </Switch>
         </div>
     );

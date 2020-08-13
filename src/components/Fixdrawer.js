@@ -48,7 +48,7 @@ const Fixdrawer = () => {
                         <ListItemText primary="Productos" />
                     </ListItem>
                 </Link>
-                <Link to='/sails' className={classes.link}>
+                <Link to='/sales' className={classes.link}>
                     <ListItem button>
                         <ListItemIcon>
                             <AttachMoneyIcon />
