@@ -4,8 +4,9 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import conf from '../../conf';
 import Snackbar from '@material-ui/core/Snackbar';
-import CircularProgress from '@material-ui/core/CircularProgress'
 import MuiAlert from '@material-ui/lab/Alert';
+import AppContext from '../AppContext';
+import { useContext } from 'react';
 
 const styles = {
     textInputMargin: {
@@ -28,9 +29,10 @@ const productDefaultValues = {
 };
   
 const CreateProduct = (props) => {
+    const context = useContext(AppContext);
+
     const [product, setProduct] = React.useState(productDefaultValues);
     const [snackbarOpen, setSnackbarOpen] = React.useState(false);
-    const [isLoading, setIsLoading] = React.useState(false);
 
     const handleChange = (evt) => {
         console.log(evt.target.name)
@@ -50,20 +52,17 @@ const CreateProduct = (props) => {
     }
 
     const handleClickUpLoad = () => {
-        setIsLoading(true);
+        context.handlerOpenLinear();
         axios.post(`${conf.API_URL}/products`, product)
                 .then(result => {
-                    setIsLoading(false)
                     console.log(result.data);
-                    setSnackbarOpen(
-                        true
-                    )
-                    
+                    setSnackbarOpen(true);
                     setProduct(productDefaultValues);
+                    context.handlerCloseLinear();
                 })
                 .catch(err => {
-                    setIsLoading(false)
                     console.log(err)
+                    context.handlerCloseLinear();
                 }); 
     }
 
@@ -76,13 +75,7 @@ const CreateProduct = (props) => {
             </form>
             <br/>
             <Button onClick={handleClickUpLoad} variant="contained" color="primary" component="span">
-                {
-                    isLoading ? (
-                        <CircularProgress color="white"/>
-                    ) : (
-                        'UPLOAD'
-                    )
-                }
+                Upload
             </Button>
 
             <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
