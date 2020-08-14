@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Typography, Button, makeStyles, TextField, Container, Avatar, Box } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import conf from '../conf';
 import Axios from 'axios';
+import AppContext from '../appContext';
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -26,6 +27,7 @@ const useStyles = makeStyles(theme => ({
 
 const Login = () => {
     const classes = useStyles();
+    const context = useContext(AppContext);
 
     const [credentials, setCredentials] = useState({
         username: '',
@@ -48,7 +50,8 @@ const Login = () => {
         Axios.post(`${conf.API_URL}/users/login`, credentials)
             .then(res => {
                 console.log(res.data);
-                localStorage.setItem('Usuario: ', JSON.stringify(res.data))
+                localStorage.setItem('Usuario: ', JSON.stringify(res.data));
+                context.handlerLogin();
             })
             .catch(error => console.log('Error: ' + error))
     }

@@ -21,7 +21,8 @@ const useStyles = makeStyles(theme => ({
 const Container = () => {
     const classes = useStyles();
 
-    const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
+    const [login, setLogin] = useState(false);
 
     const handlerOpenLinear = () => {
         setLoading(true)
@@ -31,12 +32,18 @@ const Container = () => {
         setLoading(false)
     }
 
+    const handlerLogin = () => {
+        setLogin(true)
+    }
+
     return (
         <div className={classes.root}>
             <AppContext.Provider value={{
                 loading: loading,
                 handlerOpenLinear,
                 handlerCloseLinear,
+                login: login,
+                handlerLogin,
             }}>
                 <Navbar />
                 <Router>
