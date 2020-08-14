@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import AppContext from './AppContext';
+import AppContext from '../appContext';
 import CreateProduct from './products/create';
 import { LinearProgress } from '@material-ui/core';
 import Login from './Login';

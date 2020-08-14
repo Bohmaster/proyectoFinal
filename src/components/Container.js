@@ -4,7 +4,7 @@ import Fixdrawer from './Fixdrawer';
 import Navbar from './Navbar';
 import Routing from './Routing'
 import { BrowserRouter as Router } from 'react-router-dom';
-import AppContext from './AppContext';
+import AppContext from '../appContext';
 
 const useStyles = makeStyles(theme => ({
     root: {

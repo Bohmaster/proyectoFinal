@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 import conf from '../../conf';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
-import AppContext from '../AppContext';
+import AppContext from '../../appContext';
 import { useContext } from 'react';
 
 const styles = {
