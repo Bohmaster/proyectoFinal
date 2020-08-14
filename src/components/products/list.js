@@ -1,11 +1,14 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
-export default () => {
+import { Link } from 'react-router-dom';
+
+const ProductList = () => {
 
     return (
         <div>
-            <h1>Productis</h1>
-            <Link to='/products/create'><button>Puto</button></Link>
+            <h1>Lista de productos</h1>
+            <Link to='/products/create'><button>Crear productos</button></Link>
         </div>
     )
 }
+
+export default ProductList;

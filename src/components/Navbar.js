@@ -12,9 +12,9 @@ const Navbar = () => {
     const classes = useStyles();
     return (
         <div>
-            <AppBar position='fixed' color='primary' className={classes.appBar}>
+            <AppBar position="fixed" color="primary" className={classes.appBar}>
                 <Toolbar>
-                    <Typography variant="h4" color="initial">Sistema de gestión</Typography>
+                    <Typography variant="button" color="initial">Sistema de gestión</Typography>
                 </Toolbar>
             </AppBar>
         </div>
