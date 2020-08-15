@@ -6,7 +6,7 @@ import Routing from './Routing'
 import { BrowserRouter as Router } from 'react-router-dom';
 import AppContext from '../appContext';
 import LoginUser from './LoginUser';
-import Alert from '@material-ui/lab/Alert';
+import MuiAlert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -47,6 +47,12 @@ const Main = () => {
     const handlerCloseSnackbar = () => {
         setOpenSnackbar(false);
     }
+
+    const Alert = (props) => {
+        return (
+            <MuiAlert elevation={6} variant="filled" {...props} />
+        )
+    };
 
     return (
         <div className={classes.root}>
