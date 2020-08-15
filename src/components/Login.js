@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Typography, Button, makeStyles, TextField, Container, Avatar, Box } from '@material-ui/core';
+import { Typography, Button, makeStyles, TextField, Container, Avatar } from '@material-ui/core';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import conf from '../conf';
 import Axios from 'axios';
@@ -94,15 +94,7 @@ const Login = () => {
                     variant="contained"
                     fullWidth>Sign in</Button>
                 </form>
-                
             </div>
-            <Box display="flex" justifyContent="flex-end">
-                <Button 
-                    variant="text" 
-                    color="primary">
-                    Register
-                </Button>
-            </Box>
         </Container >
     )
 }

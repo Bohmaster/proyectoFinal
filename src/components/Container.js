@@ -25,15 +25,19 @@ const Container = () => {
     const [login, setLogin] = useState(false);
 
     const handlerOpenLinear = () => {
-        setLoading(true)
+        setLoading(true);
     }
 
     const handlerCloseLinear = () => {
-        setLoading(false)
+        setLoading(false);
     }
 
     const handlerLogin = () => {
-        setLogin(true)
+        setLogin(true);
+    }
+
+    const handlerLogout = () => {
+        setLogin(false);
     }
 
     return (
@@ -44,6 +48,7 @@ const Container = () => {
                 handlerCloseLinear,
                 login: login,
                 handlerLogin,
+                handlerLogout
             }}>
                 <Navbar />
                 <Router>
