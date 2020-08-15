@@ -25,7 +25,7 @@ const Main = () => {
 
     const [loading, setLoading] = useState(false);
     const [login, setLogin] = useState(false);
-    const [openSnackbar, setOpenSnackbar] = useState(true);
+    const [openSnackbar, setOpenSnackbar] = useState(false);
 
     const handlerOpenLinear = () => {
         setLoading(true);
@@ -37,6 +37,7 @@ const Main = () => {
 
     const handlerLogin = () => {
         setLogin(true);
+        setOpenSnackbar(true);
     }
 
     const handlerLogout = () => {
