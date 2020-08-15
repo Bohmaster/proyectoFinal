@@ -1,12 +1,12 @@
 import React from 'react';
 import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './components/temaConfig';
-import Container from './components/Container';
+import Main from './components/Main';
 
 function App() {
    return (
       <ThemeProvider theme={theme}>
-         <Container />
+         <Main />
       </ThemeProvider>
    );
 }

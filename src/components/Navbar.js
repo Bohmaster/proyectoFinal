@@ -10,7 +10,7 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         flexGrow: 1,
-      },
+    },
 }))
 
 const Navbar = () => {
@@ -21,13 +21,9 @@ const Navbar = () => {
             <AppBar position="fixed" color="primary" className={classes.appBar}>
                 <Toolbar>
                     <Typography className={classes.title} variant="button" color="initial">Sistema de gestión</Typography>
-                    {
-                        context.login ? (
-                            <Button color="inherit" onClick={() => context.handlerLogout()}>
-                                <ExitToAppIcon />
-                            </Button>
-                        ) : null
-                    }
+                    <Button color="inherit" onClick={() => context.handlerLogout()}>
+                        <ExitToAppIcon />
+                    </Button>
                 </Toolbar>
             </AppBar>
         </div>

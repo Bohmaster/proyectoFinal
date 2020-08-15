@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, Snackbar } from '@material-ui/core';
 import Fixdrawer from './Fixdrawer';
 import Navbar from './Navbar';
 import Routing from './Routing'
 import { BrowserRouter as Router } from 'react-router-dom';
 import AppContext from '../appContext';
+import LoginUser from './LoginUser';
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -18,11 +20,12 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const Container = () => {
+const Main = () => {
     const classes = useStyles();
 
     const [loading, setLoading] = useState(false);
     const [login, setLogin] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState(true);
 
     const handlerOpenLinear = () => {
         setLoading(true);
@@ -40,6 +43,10 @@ const Container = () => {
         setLogin(false);
     }
 
+    const handlerCloseSnackbar = () => {
+        setOpenSnackbar(false);
+    }
+
     return (
         <div className={classes.root}>
             <AppContext.Provider value={{
@@ -48,19 +55,28 @@ const Container = () => {
                 handlerCloseLinear,
                 login: login,
                 handlerLogin,
-                handlerLogout
+                handlerLogout,
             }}>
-                <Navbar />
-                <Router>
-                    <Fixdrawer />
-                    <div className={classes.content}>
-                        <div className={classes.toolbar}></div>
-                        <Routing />
-                    </div>
-                </Router>
+                {
+                    login ? (
+                        <Router>
+                            <Navbar />
+                            <Fixdrawer />
+                            <div className={classes.content}>
+                                <div className={classes.toolbar}></div>
+                                <Routing />
+                                <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handlerCloseSnackbar}>
+                                    <Alert onClose={handlerCloseSnackbar} severity="success">
+                                        ¡Ha iniciado sesión!
+                                    </Alert>
+                                </Snackbar>
+                            </div>
+                        </Router>
+                    ) : <LoginUser />
+                }
             </AppContext.Provider>
         </div>
     );
 }
 
-export default Container;
+export default Main;

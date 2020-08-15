@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     },
 }))
 
-const Login = () => {
+const LoginUser = () => {
     const classes = useStyles();
     const context = useContext(AppContext);
 
@@ -36,7 +36,6 @@ const Login = () => {
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
-        console.log(name, value)
 
         setCredentials({
             ...credentials,
@@ -99,4 +98,4 @@ const Login = () => {
     )
 }
 
-export default Login;
+export default LoginUser;

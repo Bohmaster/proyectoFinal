@@ -2,7 +2,7 @@ import { createContext } from 'react'
 
 const AppContext = createContext({
     loading: false,
-    login: false
+    login: false,
 });
 
 export default AppContext;
