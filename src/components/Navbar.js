@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { AppBar, makeStyles, Toolbar, Typography, Button } from '@material-ui/core';
 import AppContext from '../appContext';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     appBar: {
@@ -20,8 +21,11 @@ const Navbar = () => {
         <div>
             <AppBar position="fixed" color="primary" className={classes.appBar}>
                 <Toolbar>
-                    <Typography className={classes.title} variant="button" color="initial">Sistema de gestión</Typography>
-                    <Button color="inherit" onClick={() => context.handlerLogout()}>
+                    <Typography 
+                        className={classes.title} 
+                        variant="button" 
+                        color="initial">Sistema de gestión</Typography>
+                    <Button color="inherit" onClick={() => context.handlerLogout(), <Redirect to='/login'/>}>
                         <ExitToAppIcon />
                     </Button>
                 </Toolbar>

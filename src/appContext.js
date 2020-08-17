@@ -1,8 +1,15 @@
-import { createContext } from 'react'
+import { createContext } from 'react';
 
-const AppContext = createContext({
-    loading: false,
+export const defaultGlobalState = {
+    ui: {
+        loading: false,
+        loaded: false, 
+        status: '',
+        message: '',    
+    },
     login: false,
-});
+}
+
+const AppContext = createContext(defaultGlobalState);
 
 export default AppContext;
