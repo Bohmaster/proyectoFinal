@@ -3,8 +3,6 @@ import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import conf from '../../conf';
-import Snackbar from '@material-ui/core/Snackbar';
-import MuiAlert from '@material-ui/lab/Alert';
 import AppContext from '../../appContext';
 import { useContext } from 'react';
 
@@ -12,12 +10,6 @@ const styles = {
     textInputMargin: {
         margin: 10
     }
-};
-
-const Alert = (props) => {
-    return (
-        <MuiAlert elevation={6} variant="filled" {...props} />
-    )
 };
 
 const productDefaultValues = {
@@ -32,7 +24,6 @@ const CreateProduct = (props) => {
     const context = useContext(AppContext);
 
     const [product, setProduct] = React.useState(productDefaultValues);
-    const [snackbarOpen, setSnackbarOpen] = React.useState(false);
 
     const handleChange = (evt) => {
         console.log(evt.target.name)
@@ -45,24 +36,21 @@ const CreateProduct = (props) => {
         )
     };
 
-    const handleClose = () => {
-        setSnackbarOpen(
-            false
-        )
-    }
-
     const handleClickUpLoad = () => {
         context.handlerOpenLinear();
         axios.post(`${conf.API_URL}/products`, product)
                 .then(result => {
                     console.log(result.data);
-                    setSnackbarOpen(true);
                     setProduct(productDefaultValues);
                     context.handlerCloseLinear();
+                    context.handlerOpenSnackbar();
+                    context.handlerSnackbarAlert('success', 'Producto creado');
                 })
                 .catch(err => {
                     console.log(err)
                     context.handlerCloseLinear();
+                    context.handlerOpenSnackbar();
+                    context.handlerSnackbarAlert('error', 'No se pudo crear el producto');
                 }); 
     }
 
@@ -77,12 +65,6 @@ const CreateProduct = (props) => {
             <Button onClick={handleClickUpLoad} variant="contained" color="primary" component="span">
                 Upload
             </Button>
-
-            <Snackbar open={snackbarOpen} autoHideDuration={6000} onClose={handleClose}>
-                <Alert onClose={handleClose} severity="success">
-                    Producto creado
-                </Alert>
-            </Snackbar>
         </div>
     )
 };

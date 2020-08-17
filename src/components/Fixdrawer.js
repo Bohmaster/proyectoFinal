@@ -43,7 +43,6 @@ const Fixdrawer = () => {
                 anchor="left">
                 <div className={classes.toolbar}></div>
                 <List component='nav'>
-                    <Link to='/products' className={classes.link}>
                         <ListItem button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
                             <ListItemIcon>
                                 <FastfoodIcon />
@@ -64,7 +63,7 @@ const Fixdrawer = () => {
                                 <MenuItem onClick={handleClose}>Lista de productos</MenuItem>
                             </Link>
                         </Menu>
-                    </Link>
+
                     <Link to='/sales' className={classes.link}>
                         <ListItem button>
                             <ListItemIcon>

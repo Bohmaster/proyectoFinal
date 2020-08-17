@@ -3,10 +3,10 @@ import { makeStyles, Snackbar } from '@material-ui/core';
 import Fixdrawer from './Fixdrawer';
 import Navbar from './Navbar';
 import Routing from './Routing'
-import { BrowserRouter as Router } from 'react-router-dom';
-import AppContext from '../appContext';
-import LoginUser from './LoginUser';
+import { BrowserRouter as Router, Redirect } from 'react-router-dom';
+import AppContext, { defaultGlobalState } from '../appContext';
 import MuiAlert from '@material-ui/lab/Alert';
+import LoginUser from '../components/LoginUser';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -26,6 +26,17 @@ const Main = () => {
     const [loading, setLoading] = useState(false);
     const [login, setLogin] = useState(false);
     const [openSnackbar, setOpenSnackbar] = useState(false);
+    const [alert, setAlert] = useState({
+        status: '',
+        message: ''
+    })
+
+    const handlerSnackbarAlert = (status, message) => {
+        setAlert({
+            status,
+            message
+        })
+    }
 
     const handlerOpenLinear = () => {
         setLoading(true);
@@ -41,7 +52,13 @@ const Main = () => {
     }
 
     const handlerLogout = () => {
+        localStorage.removeItem('user');
         setLogin(false);
+        return <Redirect to='/login' />
+    }
+
+    const handlerOpenSnackbar = () => {
+        setOpenSnackbar(true);
     }
 
     const handlerCloseSnackbar = () => {
@@ -57,29 +74,66 @@ const Main = () => {
     return (
         <div className={classes.root}>
             <AppContext.Provider value={{
-                loading: loading,
+                ...defaultGlobalState, /// ... => se llama spread
+                ui: {
+                    ...defaultGlobalState.ui,
+                    loading
+                },
+                login,
                 handlerOpenLinear,
                 handlerCloseLinear,
-                login: login,
                 handlerLogin,
                 handlerLogout,
+                handlerSnackbarAlert,
+                handlerOpenSnackbar,
+                handlerCloseSnackbar
             }}>
                 {
-                    login ? (
-                        <Router>
-                            <Navbar />
-                            <Fixdrawer />
-                            <div className={classes.content}>
-                                <div className={classes.toolbar}></div>
-                                <Routing />
-                                <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handlerCloseSnackbar}>
-                                    <Alert onClose={handlerCloseSnackbar} severity="success">
-                                        ¡Ha iniciado sesión!
-                                    </Alert>
-                                </Snackbar>
-                            </div>
-                        </Router>
-                    ) : <LoginUser />
+                    <Router>
+                        {
+                            login ? (
+                                <>
+                                    <Navbar />
+                                    <Fixdrawer />
+                                    <div className={classes.content}>
+                                        <div className={classes.toolbar}></div>
+                                        <Routing />
+                                    </div>
+                                </>
+                            ) : <LoginUser/>
+                        }
+                    </Router>
+                }
+                {
+                    alert.status === '' ? null : (
+                        <>
+                            {
+                                alert.status === 'success' ? (
+                                    <Snackbar
+                                        open={openSnackbar}
+                                        autoHideDuration={6000}
+                                        onClose={handlerCloseSnackbar}>
+                                        <Alert
+                                            onClose={handlerCloseSnackbar}
+                                            severity="success">
+                                            {alert.message}
+                                        </Alert>
+                                    </Snackbar>
+                                ) : alert.status === 'error' ? (
+                                    <Snackbar
+                                        open={openSnackbar}
+                                        autoHideDuration={6000}
+                                        onClose={handlerCloseSnackbar}>
+                                        <Alert
+                                            onClose={handlerCloseSnackbar}
+                                            severity="error">
+                                            {alert.message}
+                                        </Alert>
+                                    </Snackbar>
+                                ) : null
+                            }
+                        </>
+                    )
                 }
             </AppContext.Provider>
         </div>

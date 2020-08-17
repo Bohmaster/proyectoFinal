@@ -49,10 +49,15 @@ const LoginUser = () => {
         Axios.post(`${conf.API_URL}/users/login`, credentials)
             .then(res => {
                 console.log(res.data);
-                localStorage.setItem('Usuario: ', JSON.stringify(res.data));
+                localStorage.setItem('user', JSON.stringify(res.data));
                 context.handlerLogin();
+                context.handlerSnackbarAlert('success', 'Ha iniciado sesion');
             })
-            .catch(error => console.log('Error: ' + error))
+            .catch(error => {
+                console.log(error);
+                context.handlerOpenSnackbar();
+                context.handlerSnackbarAlert('error', 'No se pudo iniciar sesión');
+            })
     }
 
     return (
