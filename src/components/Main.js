@@ -3,7 +3,7 @@ import { makeStyles, Snackbar } from '@material-ui/core';
 import Fixdrawer from './Fixdrawer';
 import Navbar from './Navbar';
 import Routing from './Routing'
-import { BrowserRouter as Router, Redirect } from 'react-router-dom';
+import { Route, Redirect, Switch, useHistory } from 'react-router-dom';
 import AppContext, { defaultGlobalState } from '../appContext';
 import MuiAlert from '@material-ui/lab/Alert';
 import LoginUser from '../components/LoginUser';
@@ -22,6 +22,8 @@ const useStyles = makeStyles(theme => ({
 
 const Main = () => {
     const classes = useStyles();
+
+    const history = useHistory();
 
     const [loading, setLoading] = useState(false);
     const [login, setLogin] = useState(false);
@@ -54,7 +56,7 @@ const Main = () => {
     const handlerLogout = () => {
         localStorage.removeItem('user');
         setLogin(false);
-        return <Redirect to='/login' />
+        history.push('/login');
     }
 
     const handlerOpenSnackbar = () => {
@@ -89,7 +91,7 @@ const Main = () => {
                 handlerCloseSnackbar
             }}>
                 {
-                    <Router>
+                    <Switch>
                         {
                             login ? (
                                 <>
@@ -100,9 +102,9 @@ const Main = () => {
                                         <Routing />
                                     </div>
                                 </>
-                            ) : <LoginUser/>
+                            ) : <LoginUser />
                         }
-                    </Router>
+                    </Switch>
                 }
                 {
                     alert.status === '' ? null : (
