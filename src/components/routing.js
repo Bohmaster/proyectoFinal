@@ -1,36 +1,39 @@
 import React, { useContext } from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import AppContext from '../appContext';
 import CreateProduct from './products/create';
-import { LinearProgress, Typography } from '@material-ui/core';
+import { LinearProgress } from '@material-ui/core';
 import ProductList from './products/list';
-import SalesList from '../components/SalesList'
+import SalesList from '../components/SalesList';
+import NotFound from '../components/NotFound';
+import LoginUser from './LoginUser';
+
 const Routing = () => {
     const context = useContext(AppContext);
     return (
         <div>
             {
-                context.loading ? (
+                context.ui.loading ? (
                     <LinearProgress />
                 ) : null
             }
-            <Switch>
-                <Route 
-                    exact path='/' 
-                    render={() => <Typography variant="button" color="initial">Bienvenido</Typography>} />
-                <Route 
-                    exact path='/products' 
-                    render={() => <Typography variant="button" color="initial">Productos</Typography>} />
-                <Route 
-                    exact path='/products/create' 
-                    component={CreateProduct} />
-                <Route 
-                    exact path='/products/list' 
-                    component={ProductList} />
-                <Route 
-                    exact path='/sales' 
-                    component={SalesList} />
-            </Switch>
+            <Route
+                exact path='/products/create'
+                component={CreateProduct} />
+            <Route
+                exact path='/products/list'
+                component={ProductList} />
+            <Route
+                exact path='/products'
+                render={() => <h1>Productos</h1>} />
+            <Route
+                exact path='/sales'
+                component={SalesList} />
+            <Route
+                exact path='/login'
+                component={LoginUser} />
+            <Route
+                component={NotFound}/>
         </div>
     );
 }
