@@ -8,21 +8,14 @@ const ProductList = () => {
 
     const [products, setProducts] = useState([]);
     const history = useHistory();
+    const [search, setSearch] = useState('');
 
     useEffect(() => {
         fetchProducts();
     }, [])
 
     const fetchProducts = () => {
-        Axios.get(`${conf.API_URL}/products`, {
-            params: {
-                filter: {
-                    where: {
-                        name: 'pablo'
-                    }
-                }
-            }
-        })
+        Axios.get(`${conf.API_URL}/products`)
             .then(res => {
                 console.log(res.data);
                 setProducts(res.data);
@@ -30,15 +23,37 @@ const ProductList = () => {
             .catch(error => console.log(error))
     }
 
-    const handleEdit = (id) => {
+    const handlerEdit = (id) => {
         history.push(`/products/${id}`);
+    }
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        Axios.get(`${conf.API_URL}/products`, {
+            params: {
+                filter: {
+                    where: {
+                        name: search
+                    }
+                }
+            }
+        })
+        .then(res=> {
+            setProducts(res.data)
+        })
+    }
+
+    const onChangeHandler = (e) => {
+        console.log(e.target.name, e.target.value)
+        setSearch(e.target.value);
     }
 
     return (
         <div>
-
-            <TextField placeholder='Buscar' variant='outlined' />
-            <Button>Buscar</Button>
+            <form onSubmit={onSubmit}>
+                <TextField name='search' variant='outlined' onChange={onChangeHandler} value={search}/>
+                <Button type='submit'>Buscar</Button>
+            </form>
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -49,11 +64,12 @@ const ProductList = () => {
                     </TableHead>
                     <TableBody>
                         {products.map(product =>
-                            <TableRow>
+                            <TableRow key={product.id}>
                                 <TableCell>{product.name}</TableCell>
                                 <TableCell>{product.description}</TableCell>
                                 <TableCell>{product.price}</TableCell>
-                                <TableCell><Button onClick={() => handleEdit(product.id)}>Editar</Button></TableCell>
+                                <TableCell><Button onClick={() => handlerEdit(product.id)}>Editar</Button></TableCell>
+                                <TableCell><Button>Eliminar</Button></TableCell>
                             </TableRow>)}
                     </TableBody>
                 </Table>

@@ -18,7 +18,7 @@ const ProductID = () => {
 
     return(
         <div>
-            {prod.name} - {prod.price}
+            {prod.name}
         </div>
     )
 }
