@@ -4,8 +4,7 @@ import AppContext from '../appContext';
 import CreateProduct from './products/create';
 import { LinearProgress } from '@material-ui/core';
 import ProductList from './products/list';
-import SalesList from '../components/SalesList';
-import NotFound from '../components/NotFound';
+import SalesList from './SalesList';
 import LoginUser from './LoginUser';
 import Product from './Product';
 
@@ -36,8 +35,6 @@ const Routing = () => {
             <Route
                 exact path='/login'
                 component={LoginUser} />
-            <Route
-                component={NotFound}/>
         </div>
     );
 }
