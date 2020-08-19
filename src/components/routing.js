@@ -7,6 +7,7 @@ import ProductList from './products/list';
 import SalesList from './SalesList';
 import LoginUser from './LoginUser';
 import ProductID from './ProductID';
+import Product from './Product';
 
 const Routing = () => {
     const context = useContext(AppContext);
@@ -26,6 +27,9 @@ const Routing = () => {
             <Route
                 exact path='/products/:id'
                 component={ProductID} />
+            <Route
+                exact path='/products/:id'
+                component={Product} />
             <Route
                 exact path='/sales'
                 component={SalesList} />
