@@ -83,11 +83,21 @@ const ProductList = () => {
         setSearch(e.target.value);
     };
 
+    const getProducts = () => {
+        Axios.get(`${conf.API_URL}/products`)
+            .then(response => {
+                setProducts(response.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    };
+
     const eliminarButton = (id) => () => {
         Axios.delete(`${conf.API_URL}/products/${id}`)
             .then(response => {
                 console.log(response);
-                fetchProducts()
+                getProducts()
             })
             .catch(err => console.log(err))
     };
