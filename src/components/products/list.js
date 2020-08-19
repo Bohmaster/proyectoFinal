@@ -2,25 +2,58 @@ import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import conf from '../../conf';
 import { useHistory } from 'react-router-dom';
-import { TableContainer, TableHead, TableBody, TableCell, TableRow, Table, Link, TextField, Button } from '@material-ui/core';
+import Paginate from '../Paginate';
+import {
+    TableContainer,
+    TableHead,
+    TableBody,
+    TableCell,
+    TableRow,
+    Table,
+    TextField,
+    Button,
+    TableFooter,
+} from '@material-ui/core';
 
 const ProductList = () => {
 
     const [products, setProducts] = useState([]);
-    const history = useHistory();
+    const [totalProducts, setTotalProducts] = useState(0);
+
     const [search, setSearch] = useState('');
 
+    const limit = 5;
+    let offset = 0
+
+    const history = useHistory();
+
     useEffect(() => {
-        fetchProducts();
+        fetchProducts(1);
+        countProducts();
     }, [])
 
-    const fetchProducts = () => {
-        Axios.get(`${conf.API_URL}/products`)
+    const fetchProducts = (page) => {
+        if (page === 1) {
+            offset = 0;
+        } else {
+            offset = (page - 1) * limit;
+        }
+        Axios.get(`${conf.API_URL}/products?filter={"limit": ${limit}, "offset": ${offset}}`)
             .then(res => {
-                console.log(res.data);
                 setProducts(res.data);
             })
             .catch(error => console.log(error))
+    }
+
+    const countProducts = () => {
+        Axios.get(`${conf.API_URL}/products/count`)
+            .then(res => {
+                setTotalProducts(res.data.count)
+            })
+    }
+
+    const changePage = (page) => {
+        fetchProducts(page);
     }
 
     const handlerEdit = (id) => {
@@ -29,6 +62,7 @@ const ProductList = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
+
         Axios.get(`${conf.API_URL}/products`, {
             params: {
                 filter: {
@@ -38,9 +72,10 @@ const ProductList = () => {
                 }
             }
         })
-        .then(res=> {
-            setProducts(res.data)
-        })
+            .then(res => {
+                setProducts(res.data);
+            })
+            .catch(error => console.log(error));
     }
 
     const onChangeHandler = (e) => {
@@ -60,9 +95,14 @@ const ProductList = () => {
     return (
         <div>
             <form onSubmit={onSubmit}>
-                <TextField name='search' variant='outlined' onChange={onChangeHandler} value={search}/>
+                <TextField 
+                    name='search' 
+                    variant='outlined' 
+                    onChange={onChangeHandler} 
+                    value={search} required/>
                 <Button type='submit'>Buscar</Button>
             </form>
+
             <TableContainer>
                 <Table>
                     <TableHead>
@@ -81,6 +121,12 @@ const ProductList = () => {
                                 <TableCell><Button onClick={eliminarButton(product.id)}>Eliminar</Button></TableCell>
                             </TableRow>)}
                     </TableBody>
+                    <TableFooter>
+                        <Paginate
+                            totalProducts={totalProducts}
+                            productsPerPage={limit}
+                            changePage={changePage} />
+                    </TableFooter>
                 </Table>
             </TableContainer>
         </div>
