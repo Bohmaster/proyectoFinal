@@ -3,7 +3,7 @@ import { makeStyles, Snackbar } from '@material-ui/core';
 import Fixdrawer from './Fixdrawer';
 import Navbar from './Navbar';
 import Routing from './Routing'
-import { Route, Redirect, Switch, useHistory } from 'react-router-dom';
+import { Switch, useHistory } from 'react-router-dom';
 import AppContext, { defaultGlobalState } from '../appContext';
 import MuiAlert from '@material-ui/lab/Alert';
 import LoginUser from '../components/LoginUser';
@@ -93,7 +93,7 @@ const Main = () => {
                 {
                     <Switch>
                         {
-                            login ? (
+                          //  login ? (
                                 <>
                                     <Navbar />
                                     <Fixdrawer />
@@ -102,7 +102,7 @@ const Main = () => {
                                         <Routing />
                                     </div>
                                 </>
-                            ) : <LoginUser />
+                            //) : <LoginUser />
                         }
                     </Switch>
                 }
