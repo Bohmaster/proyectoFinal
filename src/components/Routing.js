@@ -6,7 +6,7 @@ import { LinearProgress } from '@material-ui/core';
 import ProductList from './products/list';
 import SalesList from './SalesList';
 import LoginUser from './LoginUser';
-import Product from './Product';
+import ProductID from './ProductID';
 
 const Routing = () => {
     const context = useContext(AppContext);
@@ -24,11 +24,8 @@ const Routing = () => {
                 exact path='/products/list'
                 component={ProductList} />
             <Route
-                exact path='/products'
-                render={() => <h1>Productos</h1>} />
-            <Route
                 exact path='/products/:id'
-                component={Product} />
+                component={ProductID} />
             <Route
                 exact path='/sales'
                 component={SalesList} />
