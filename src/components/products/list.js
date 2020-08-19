@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
 import conf from '../../conf';  
-import { TableContainer, TableHead, TableBody, TableCell, TableRow, Table, Input, TextField, Button } from '@material-ui/core';
+import { TableContainer, TableHead, TableBody, TableCell, TableRow, Table, Link, TextField, Button } from '@material-ui/core';
 
 const ProductList = () => {
 
@@ -37,9 +37,11 @@ const ProductList = () => {
                     <TableBody>
                         {products.map(product => 
                         <TableRow>
+                            <Link to={`products/${product.id}`}>
                             <TableCell>{product.name}</TableCell>
                             <TableCell>{product.description}</TableCell>
                             <TableCell>{product.price}</TableCell>
+                            </Link>
                         </TableRow>)}
                     </TableBody>
                 </Table>
