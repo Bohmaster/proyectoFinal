@@ -20,7 +20,13 @@ const ProductID = () => {
 
     const history = useHistory();
 
-    const [prod, setProd] = useState('')
+    const [prod, setProd] = useState({
+        name: '',
+        description: '',
+        price: '',
+        isImportant: true,
+        created: new Date()
+    })
 
     const { id } = useParams();
 
