@@ -92,7 +92,26 @@ const ProductList = () => {
     const onChangeHandler = (e) => {
         console.log(e.target.name, e.target.value)
         setSearch(e.target.value);
-    }
+    };
+
+    const getProducts = () => {
+        Axios.get(`${conf.API_URL}/products`)
+            .then(response => {
+                setProducts(response.data)
+            })
+            .catch(err => {
+                console.log(err)
+            })
+    };
+
+    const eliminarButton = (id) => () => {
+        Axios.delete(`${conf.API_URL}/products/${id}`)
+            .then(response => {
+                console.log(response);
+                getProducts()
+            })
+            .catch(err => console.log(err))
+    };
 
     return (
         <div>
@@ -120,7 +139,7 @@ const ProductList = () => {
                                 <TableCell>{product.description}</TableCell>
                                 <TableCell>{product.price}</TableCell>
                                 <TableCell><Button onClick={() => handlerEdit(product.id)}>Editar</Button></TableCell>
-                                <TableCell><Button>Eliminar</Button></TableCell>
+                                <TableCell><Button onClick={eliminarButton(product.id)}>Eliminar</Button></TableCell>
                             </TableRow>)}
                     </TableBody>
                     <TableFooter>
