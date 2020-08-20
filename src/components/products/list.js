@@ -78,7 +78,7 @@ const ProductList = () => {
         })
             .then(res => {
                 const data = res.data;
-                if (data === ) {
+                if (data === '') {
                     context.handlerOpenSnackbar();
                     context.handlerSnackbarAlert('error', 'No se encontró el producto');
                 } else {
