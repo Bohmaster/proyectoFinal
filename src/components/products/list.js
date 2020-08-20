@@ -1,8 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Axios from 'axios';
 import conf from '../../conf';
 import { useHistory } from 'react-router-dom';
 import Paginate from '../Paginate';
+import AppContext from '../../appContext';
 import {
     TableContainer,
     TableHead,
@@ -15,6 +16,7 @@ import {
     TableFooter,
 } from '@material-ui/core';
 
+
 const ProductList = () => {
 
     const [products, setProducts] = useState([]);
@@ -26,6 +28,8 @@ const ProductList = () => {
     let offset = 0
 
     const history = useHistory();
+
+    const context = useContext(AppContext);
 
     useEffect(() => {
         fetchProducts(1);
@@ -73,7 +77,14 @@ const ProductList = () => {
             }
         })
             .then(res => {
-                setProducts(res.data);
+                const data = res.data;
+                if (data === ) {
+                    context.handlerOpenSnackbar();
+                    context.handlerSnackbarAlert('error', 'No se encontró el producto');
+                } else {
+                    setProducts(res.data)
+                }
+
             })
             .catch(error => console.log(error));
     }
