@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import { AppBar, makeStyles, Toolbar, Typography, Button } from '@material-ui/core';
 import AppContext from '../appContext';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
-import { Redirect } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     appBar: {
