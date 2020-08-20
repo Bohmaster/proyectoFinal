@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import conf from '../conf';
-import { useParams } from 'react-router';
+import { useParams, useHistory } from 'react-router';
 import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import { makeStyles } from '@material-ui/core/styles';
@@ -17,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
 
 const ProductID = () => {
     const classes = useStyles();
+
+    const history = useHistory();
 
 
     const [prod, setProd] = useState('')
@@ -40,6 +42,9 @@ const ProductID = () => {
 
     const actualizarButton = () => {
         Axios.put(`${conf.API_URL}/products/${id}`, prod)
+            .then(response => {
+                history.push('/products/list')
+            })
     };
 
     return (
