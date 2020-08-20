@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 const ProductID = () => {
     const classes = useStyles();
 
-
     const [prod, setProd] = useState('')
 
     const { id } = useParams();

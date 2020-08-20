@@ -116,21 +116,23 @@ const ProductList = () => {
     return (
         <div>
             <form onSubmit={onSubmit}>
-                <TextField 
-                    name='search' 
-                    variant='outlined' 
-                    onChange={onChangeHandler} 
-                    value={search} required/>
+                <TextField
+                    name='search'
+                    variant='outlined'
+                    onChange={onChangeHandler}
+                    value={search} required />
                 <Button type='submit'>Buscar</Button>
             </form>
 
             <TableContainer>
                 <Table>
                     <TableHead>
-                        <TableCell>Nombre</TableCell>
-                        <TableCell>Descripcion</TableCell>
-                        <TableCell>Precio</TableCell>
-                        <TableCell>Acciones</TableCell>
+                        <TableRow>
+                            <TableCell>Nombre</TableCell>
+                            <TableCell>Descripcion</TableCell>
+                            <TableCell>Precio</TableCell>
+                            <TableCell>Acciones</TableCell>
+                        </TableRow>
                     </TableHead>
                     <TableBody>
                         {products.map(product =>
@@ -142,13 +144,11 @@ const ProductList = () => {
                                 <TableCell><Button onClick={eliminarButton(product.id)}>Eliminar</Button></TableCell>
                             </TableRow>)}
                     </TableBody>
-                    <TableFooter>
-                        <Paginate
-                            totalProducts={totalProducts}
-                            productsPerPage={limit}
-                            changePage={changePage} />
-                    </TableFooter>
                 </Table>
+                <Paginate
+                        totalProducts={totalProducts}
+                        productsPerPage={limit}
+                        changePage={changePage} />
             </TableContainer>
         </div>
     )

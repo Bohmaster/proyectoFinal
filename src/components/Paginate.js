@@ -12,7 +12,7 @@ const Paginate = ({ productsPerPage, totalProducts, changePage }) => {
         <nav>
             {
                 pages.map(pageNumber => 
-                <Button onClick={() => changePage(pageNumber)}>
+                <Button onClick={() => changePage(pageNumber)} key={pageNumber}>
                     {pageNumber}
                 </Button>)
             }
