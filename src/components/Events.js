@@ -1,57 +1,115 @@
-import React from 'react';
-import { Typography, Button, TextField, Paper } from '@material-ui/core';
+import React, { useState } from 'react';
+import { Button, TextField, Divider, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     contenedor: {
         display: "flex",
-        backgroundColor: "grey",
+        margin: "5px",
+        padding: "5px",
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-around"
     },
-    hijo: {
-        backgroundColor: "orange",
-        margin: "10px",
-        padding: "15px",
-    }
+    hijo_: {
+        width: "30%",
+        flexDirection: "column",
+        margin: "5px",
+        padding: "5px",
+        display: "flex",
+        flexGrow: 1,
+    },
 })
 
 const Events = () => {
     const classes = useStyles();
+
+    const [event, setEvent] = useState({
+        title: '',
+        description: '',
+        date: ''
+    })
+
+    const [showEvents, setShowEvents] = useState([]);
+
+    const onChangeHandler = (e) => {
+        const { name, value } = e.target;
+        setEvent({
+            ...event,
+            [name]: value
+        })
+    }
+
+    const onSubmit = (e) => {
+        e.preventDefault();
+        setShowEvents(showEvents.concat(event))
+        console.log(event)
+    }
+
     return (
-        <div className={classes.contenedor}>
-            <form>
-                <div className={classes.hijo}>
-                    <h5>TITULO DE LA TAREA</h5>
-                    <TextField
-                        id="outlined-multiline-static"
-                        multiline
-                        rowsMax={4}
-                        placeholder="Ingrese título"
-                        variant="standard"
-                    />
+        <>
+            <form onSubmit={onSubmit}>
+                <div className={classes.contenedor}>
+                    <div className={classes.hijo_}>
+                        <h5>TITULO</h5>
+                        <TextField
+                            name="title"
+                            multiline
+                            rowsMax={4}
+                            placeholder="Ingrese título"
+                            variant="standard"
+                            onChange={onChangeHandler}
+                            value={event.title}
+                        />
+                    </div>
+                    <div className={classes.hijo_}>
+                        <h5>DESCRIPCION</h5>
+                        <TextField
+                            name="description"
+                            multiline
+                            rowsMax={4}
+                            placeholder="Ingrese tarea"
+                            variant="standard"
+                            onChange={onChangeHandler}
+                            value={event.description}
+                        />
+                    </div>
+                    <div className={classes.hijo_}>
+                        <h5>FECHA</h5>
+                        <TextField
+                            name="date"
+                            type="date"
+                            onChange={onChangeHandler}
+                            value={event.date}
+                        />
+                    </div>
                 </div>
-                <div className={classes.hijo}>
-                    <h5>DESCRIPCION</h5>
-                    <TextField
-                        id="outlined-multiline-static"
-                        multiline
-                        rowsMax={4}
-                        placeholder="Ingrese tarea"
-                        variant="standard"
-                    />
-                </div>
-                <div className={classes.hijo}>
-                    <h5>FECHA DE RECORDATORIO</h5>
-                    <TextField
-                        id="date"
-                        type="date"
-                        defaultValue="2017-05-24"
-                        InputLabelProps={{
-                            shrink: true,
-                        }}
-                    />
-                </div>
+                <Box display="flex" justifyContent="flex-end" m={1} p={1}>
+                    <Button type="submit" color="primary" variant="contained">Agendar</Button>
+                </Box>
             </form>
-        </div>
+            <Divider />
+            <div className={classes.contenedor}>
+                {
+                    showEvents.map(e =>
+                        <>
+                            <div className={classes.hijo_}>
+                                <h5>TITULO</h5>
+                                <p>{e.title}</p>
+                            </div>
+                            <div className={classes.hijo_}>
+                                <h5>DESCRIPCION</h5>
+                                <p>{e.description}</p>
+                            </div>
+                            <div className={classes.hijo_}>
+                                <h5>FECHA</h5>
+                                <p>{e.date}</p>
+                            </div>
+                        </>
+                    )
+                }
+            </div>
+        </>
     )
 }
 
