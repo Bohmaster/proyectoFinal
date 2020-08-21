@@ -1,5 +1,6 @@
 import React from 'react'
-import { Button } from '@material-ui/core';
+import { Button, Typography, Box } from '@material-ui/core';
+import Pagination from '@material-ui/lab/Pagination';
 
 const Paginate = ({ productsPerPage, totalProducts, changePage }) => {
 
@@ -9,14 +10,14 @@ const Paginate = ({ productsPerPage, totalProducts, changePage }) => {
         pages.push(i);
     }
     return (
-        <nav>
+        <div>
             {
-                pages.map(pageNumber => 
-                <Button onClick={() => changePage(pageNumber)} key={pageNumber}>
-                    {pageNumber}
-                </Button>)
+                pages.map(pageNumber =>
+                    <Button onClick={() => changePage(pageNumber)} key={pageNumber}>
+                        {pageNumber}
+                    </Button>)
             }
-        </nav>
+        </div>
     )
 }
 

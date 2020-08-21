@@ -4,6 +4,7 @@ import conf from '../../conf';
 import { useHistory } from 'react-router-dom';
 import Paginate from '../Paginate';
 import AppContext from '../../appContext';
+import SearchIcon from '@material-ui/icons/Search';
 import {
     TableContainer,
     TableHead,
@@ -13,6 +14,8 @@ import {
     Table,
     TextField,
     Button,
+    Box,
+    Paper,
 } from '@material-ui/core';
 
 
@@ -89,7 +92,6 @@ const ProductList = () => {
     }
 
     const onChangeHandler = (e) => {
-        console.log(e.target.name, e.target.value)
         setSearch(e.target.value);
     };
 
@@ -113,24 +115,30 @@ const ProductList = () => {
     };
 
     return (
-        <div>
-            <form onSubmit={onSubmit}>
-                <TextField
-                    name='search'
-                    variant='outlined'
-                    onChange={onChangeHandler}
-                    value={search} required />
-                <Button type='submit'>Buscar</Button>
-            </form>
-
-            <TableContainer>
+        <div >
+            <Box display="flex" justifyContent="flex-end">
+                <form onSubmit={onSubmit}>
+                    <TextField
+                        name='search'
+                        variant="standard"
+                        onChange={onChangeHandler}
+                        value={search} 
+                        placeholder="Buscar producto"
+                        required />
+                    <Button type='submit'>
+                        <SearchIcon color="primary" />
+                    </Button>
+                </form>
+            </Box>
+            <TableContainer component={Paper}>
                 <Table>
                     <TableHead>
                         <TableRow>
                             <TableCell>Nombre</TableCell>
                             <TableCell>Descripcion</TableCell>
                             <TableCell>Precio</TableCell>
-                            <TableCell>Acciones</TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
@@ -139,15 +147,31 @@ const ProductList = () => {
                                 <TableCell>{product.name}</TableCell>
                                 <TableCell>{product.description}</TableCell>
                                 <TableCell>{product.price}</TableCell>
-                                <TableCell><Button onClick={() => handlerEdit(product.id)}>Editar</Button></TableCell>
-                                <TableCell><Button onClick={eliminarButton(product.id)}>Eliminar</Button></TableCell>
+                                <TableCell>
+                                    <Button 
+                                        onClick={() => handlerEdit(product.id)} 
+                                        color="primary" 
+                                        variant="outlined"
+                                        >
+                                        Editar
+                                    </Button>
+                                </TableCell>
+                                <TableCell>
+                                    <Button 
+                                        onClick={eliminarButton(product.id)} 
+                                        color="primary" 
+                                        variant="outlined"
+                                        >
+                                        Eliminar
+                                    </Button>
+                                </TableCell>
                             </TableRow>)}
                     </TableBody>
                 </Table>
                 <Paginate
-                        totalProducts={totalProducts}
-                        productsPerPage={limit}
-                        changePage={changePage} />
+                    totalProducts={totalProducts}
+                    productsPerPage={limit}
+                    changePage={changePage} />
             </TableContainer>
         </div>
     )
