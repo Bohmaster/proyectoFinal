@@ -5,11 +5,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
     contenedor: {
         display: "flex",
-        margin: "5px",
-        padding: "5px",
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: "space-around"
     },
     hijo_: {
         width: "30%",
@@ -42,8 +39,7 @@ const Events = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        setShowEvents(showEvents.concat(event))
-        console.log(event)
+        setShowEvents(showEvents.concat(event));
     }
 
     return (
