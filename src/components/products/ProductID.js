@@ -48,7 +48,7 @@ const ProductID = () => {
     const actualizarButton = () => {
         Axios.put(`${conf.API_URL}/products/${id}`, prod)
             .then(response => {
-                history.push('/products/list')
+                history.push('/products')
             })
     };
 

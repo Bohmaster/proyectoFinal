@@ -60,7 +60,7 @@ const Fixdrawer = () => {
                             <Link to='/products/create' className={classes.link}>
                                 <MenuItem onClick={handleClose}>Nuevo producto</MenuItem>
                             </Link>
-                            <Link to='/products/list' className={classes.link}>
+                            <Link to='/products' className={classes.link}>
                                 <MenuItem onClick={handleClose}>Lista de productos</MenuItem>
                             </Link>
                         </Menu>

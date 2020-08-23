@@ -2,6 +2,9 @@ import React, { useState, useContext } from 'react';
 import { Button, TextField, Divider, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AppContext from '../appContext';
+import { DatePicker } from '@material-ui/pickers';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 const useStyles = makeStyles({
     contenedor: {
@@ -26,16 +29,24 @@ const Events = () => {
     const [event, setEvent] = useState({
         title: '',
         description: '',
-        date: ''
+        date: new Date().toDateString()
     })
 
     const [showEvents, setShowEvents] = useState([]);
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
+
         setEvent({
             ...event,
             [name]: value
+        })
+    }
+
+    const onChangeHandlerDate = (date) => {
+        setEvent({
+            ...event,
+            date: date.toDateString()
         })
     }
 
@@ -46,13 +57,13 @@ const Events = () => {
         setShowEvents(newEvent);
 
         localStorage.setItem('Eventos', JSON.stringify(newEvent));
+        console.log(newEvent)
         context.handlerOpenSnackbar();
         context.handlerSnackbarAlert('success', 'Evento agendado')
         setEvent({
             ...event,
             title: '',
             description: '',
-            date: ''
         })
     }
 
@@ -88,13 +99,13 @@ const Events = () => {
                     </div>
                     <div className={classes.hijo_}>
                         <h5>FECHA</h5>
-                        <TextField
-                            name="date"
-                            type="date"
-                            required
-                            onChange={onChangeHandler}
-                            value={event.date}
-                        />
+                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                            <DatePicker
+                                format="dd-MM-yyyy"
+                                onChange={(date) => onChangeHandlerDate(date)}
+                                value={event.date}
+                            />
+                        </MuiPickersUtilsProvider>
                     </div>
                 </div>
                 <Box display="flex" justifyContent="flex-end" m={1} p={1}>

@@ -19,14 +19,14 @@ const Routing = () => {
                 ) : null
             }
             <Route
+                exact path='/products/:id'
+                component={ProductID} />
+            <Route
                 exact path='/products/create'
                 component={CreateProduct} />
             <Route
-                exact path='/products/list'
+                exact path='/products'
                 component={ProductList} />
-            <Route
-                exact path='/products/:id'
-                component={ProductID} />
             <Route
                 exact path='/events'
                 component={Events} />
