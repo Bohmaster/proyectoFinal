@@ -39,7 +39,19 @@ const Events = () => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        setShowEvents(showEvents.concat(event));
+
+        const newEvent = showEvents.concat(event);
+        setShowEvents(newEvent);
+
+        localStorage.setItem('Eventos', JSON.stringify(newEvent));
+        console.log(event)
+        setEvent({
+            ...event,
+            title: '',
+            description: '',
+            date: ''
+        })
+        console.log(event)
     }
 
     return (
@@ -52,6 +64,7 @@ const Events = () => {
                             name="title"
                             multiline
                             rowsMax={4}
+                            required
                             placeholder="Ingrese título"
                             variant="standard"
                             onChange={onChangeHandler}
@@ -64,6 +77,7 @@ const Events = () => {
                             name="description"
                             multiline
                             rowsMax={4}
+                            required
                             placeholder="Ingrese tarea"
                             variant="standard"
                             onChange={onChangeHandler}
@@ -75,6 +89,7 @@ const Events = () => {
                         <TextField
                             name="date"
                             type="date"
+                            required
                             onChange={onChangeHandler}
                             value={event.date}
                         />
@@ -87,9 +102,9 @@ const Events = () => {
             <Divider />
             <div className={classes.contenedor}>
                 {
-                    showEvents.map(e =>
-                        <>
-                            <div className={classes.hijo_}>
+                    showEvents.map((e, id) =>
+                        <React.Fragment key={id}>
+                            <div className={classes.hijo_} key={e.date}>
                                 <h5>TITULO</h5>
                                 <p>{e.title}</p>
                             </div>
@@ -101,7 +116,7 @@ const Events = () => {
                                 <h5>FECHA</h5>
                                 <p>{e.date}</p>
                             </div>
-                        </>
+                        </React.Fragment>
                     )
                 }
             </div>
