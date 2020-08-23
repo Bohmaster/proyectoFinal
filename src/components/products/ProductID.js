@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import conf from '../conf';
+import conf from '../../conf';
 import { useParams, useHistory } from 'react-router';
 import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';

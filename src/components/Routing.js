@@ -6,7 +6,7 @@ import { LinearProgress } from '@material-ui/core';
 import ProductList from './products/list';
 import SalesList from './SalesList';
 import LoginUser from './LoginUser';
-import ProductID from './ProductID';
+import ProductID from './products/ProductID';
 import Events from './Events';
 
 const Routing = () => {
