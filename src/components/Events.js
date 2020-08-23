@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Button, TextField, Divider, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import AppContext from '../appContext';
 
 const useStyles = makeStyles({
     contenedor: {
@@ -20,6 +21,7 @@ const useStyles = makeStyles({
 
 const Events = () => {
     const classes = useStyles();
+    const context = useContext(AppContext);
 
     const [event, setEvent] = useState({
         title: '',
@@ -44,14 +46,14 @@ const Events = () => {
         setShowEvents(newEvent);
 
         localStorage.setItem('Eventos', JSON.stringify(newEvent));
-        console.log(event)
+        context.handlerOpenSnackbar();
+        context.handlerSnackbarAlert('success', 'Evento agendado')
         setEvent({
             ...event,
             title: '',
             description: '',
             date: ''
         })
-        console.log(event)
     }
 
     return (
