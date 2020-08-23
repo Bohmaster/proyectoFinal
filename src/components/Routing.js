@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import { Route } from 'react-router-dom';
 import AppContext from '../appContext';
-import CreateProduct from './products/create';
+import CreateProduct from './products/Create';
 import { LinearProgress } from '@material-ui/core';
-import ProductList from './products/list';
+import ProductList from './products/List';
 import SalesList from './SalesList';
 import LoginUser from './LoginUser';
 import ProductID from './products/ProductID';

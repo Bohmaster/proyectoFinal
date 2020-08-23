@@ -1,6 +1,5 @@
 import React from 'react'
-import { Button, Typography, Box } from '@material-ui/core';
-import Pagination from '@material-ui/lab/Pagination';
+import { Button } from '@material-ui/core';
 
 const Paginate = ({ productsPerPage, totalProducts, changePage }) => {
 
