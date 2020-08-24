@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Button, TextField, Divider, Box } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AppContext from '../appContext';
@@ -34,6 +34,17 @@ const Events = () => {
     })
 
     const [showEvents, setShowEvents] = useState([]);
+
+    useEffect(() => {
+        const fetchEvents = localStorage.getItem('Eventos')
+        const eventsJSON = JSON.parse(fetchEvents)
+        eventsJSON.map(e => {
+            if (e.date === new Date().toDateString()) { 
+                context.handlerOpenSnackbar()
+                context.handlerSnackbarAlert('success', `${e.title}, ${e.description}`)
+            }
+        })
+    }, [])
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
