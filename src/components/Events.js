@@ -38,12 +38,14 @@ const Events = () => {
     useEffect(() => {
         const fetchEvents = localStorage.getItem('Eventos')
         const eventsJSON = JSON.parse(fetchEvents)
-        eventsJSON.map(e => {
-            if (e.date === new Date().toDateString()) { 
-                context.handlerOpenSnackbar()
-                context.handlerSnackbarAlert('success', `${e.title}, ${e.description}`)
-            }
-        })
+        if (eventsJSON) {
+            eventsJSON.map(e => {
+                if (e.date === new Date().toDateString()) {
+                    context.handlerOpenSnackbar()
+                    context.handlerSnackbarAlert('success', `${e.title}, ${e.description}`)
+                }
+            })
+        }
     }, [])
 
     const onChangeHandler = (e) => {
