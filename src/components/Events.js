@@ -5,6 +5,7 @@ import AppContext from '../appContext';
 import { DatePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
+import es from 'date-fns/locale/es';
 
 const useStyles = makeStyles({
     contenedor: {
@@ -99,7 +100,7 @@ const Events = () => {
                     </div>
                     <div className={classes.hijo_}>
                         <h5>FECHA</h5>
-                        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                        <MuiPickersUtilsProvider utils={DateFnsUtils} locale={es}>
                             <DatePicker
                                 format="dd-MM-yyyy"
                                 onChange={(date) => onChangeHandlerDate(date)}
