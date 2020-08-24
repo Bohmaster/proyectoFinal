@@ -1,12 +1,13 @@
 import React, { useContext } from 'react';
 import { Route } from 'react-router-dom';
 import AppContext from '../appContext';
-import CreateProduct from './products/create';
+import CreateProduct from './products/Create';
 import { LinearProgress } from '@material-ui/core';
-import ProductList from './products/list';
+import ProductList from './products/List';
 import SalesList from './SalesList';
 import LoginUser from './LoginUser';
-import ProductID from './ProductID';
+import ProductID from './products/ProductID';
+import Events from './Events';
 
 const Routing = () => {
     const context = useContext(AppContext);
@@ -18,14 +19,17 @@ const Routing = () => {
                 ) : null
             }
             <Route
+                exact path='/products/:id'
+                component={ProductID} />
+            <Route
                 exact path='/products/create'
                 component={CreateProduct} />
             <Route
-                exact path='/products/list'
+                exact path='/products'
                 component={ProductList} />
             <Route
-                exact path='/products/:id'
-                component={ProductID} />
+                exact path='/events'
+                component={Events} />
             <Route
                 exact path='/sales'
                 component={SalesList} />

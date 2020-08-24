@@ -9,14 +9,14 @@ const Paginate = ({ productsPerPage, totalProducts, changePage }) => {
         pages.push(i);
     }
     return (
-        <nav>
+        <div>
             {
-                pages.map(pageNumber => 
-                <Button onClick={() => changePage(pageNumber)} key={pageNumber}>
-                    {pageNumber}
-                </Button>)
+                pages.map(pageNumber =>
+                    <Button onClick={() => changePage(pageNumber)} key={pageNumber}>
+                        {pageNumber}
+                    </Button>)
             }
-        </nav>
+        </div>
     )
 }
 

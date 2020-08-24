@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { makeStyles, Drawer, List, ListItem, ListItemIcon, ListItemText, MenuItem, Menu } from '@material-ui/core';
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
+import EventIcon from '@material-ui/icons/Event';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -59,7 +60,7 @@ const Fixdrawer = () => {
                             <Link to='/products/create' className={classes.link}>
                                 <MenuItem onClick={handleClose}>Nuevo producto</MenuItem>
                             </Link>
-                            <Link to='/products/list' className={classes.link}>
+                            <Link to='/products' className={classes.link}>
                                 <MenuItem onClick={handleClose}>Lista de productos</MenuItem>
                             </Link>
                         </Menu>
@@ -69,7 +70,15 @@ const Fixdrawer = () => {
                             <ListItemIcon>
                                 <AttachMoneyIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Ventas" />
+                            <ListItemText primary="Libro diario" />
+                        </ListItem>
+                    </Link>
+                    <Link to='/events' className={classes.link}>
+                        <ListItem button>
+                            <ListItemIcon>
+                                <EventIcon />
+                            </ListItemIcon>
+                            <ListItemText primary="Eventos" />
                         </ListItem>
                     </Link>
                 </List>

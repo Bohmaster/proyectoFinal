@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import conf from '../conf';
+import conf from '../../conf';
 import { useParams, useHistory } from 'react-router';
 import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
@@ -20,7 +20,17 @@ const ProductID = () => {
 
     const history = useHistory();
 
-    const [prod, setProd] = useState('')
+<<<<<<< HEAD:src/components/ProductID.js
+    const [prod, setProd] = useState({})
+=======
+    const [prod, setProd] = useState({
+        name: '',
+        description: '',
+        price: '',
+        isImportant: true,
+        created: new Date()
+    })
+>>>>>>> d9e693f6ead3a866f6bdbb3437ef69232b69c3d1:src/components/products/ProductID.js
 
     const { id } = useParams();
 
@@ -42,7 +52,7 @@ const ProductID = () => {
     const actualizarButton = () => {
         Axios.put(`${conf.API_URL}/products/${id}`, prod)
             .then(response => {
-                history.push('/products/list')
+                history.push('/products')
             })
     };
 
