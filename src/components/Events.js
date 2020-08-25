@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, TextField, Divider, Box } from '@material-ui/core';
+import { Button, TextField, Divider, Box, TableContainer, TableHead, TableRow, TableCell, TableBody, Table } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AppContext from '../appContext';
 import { DatePicker } from '@material-ui/pickers';
@@ -12,6 +12,14 @@ const useStyles = makeStyles({
         display: "flex",
         flexDirection: "row",
         flexWrap: "wrap",
+    },
+    hijo: {
+        width: "20%",
+        flexDirection: "column",
+        margin: "5px",
+        padding: "5px",
+        display: "flex",
+        flexGrow: 1,
     },
     hijo_: {
         width: "30%",
@@ -127,26 +135,35 @@ const Events = () => {
                 </Box>
             </form>
             <Divider />
-            <div className={classes.contenedor}>
-                {
-                    showEvents.map((e, id) =>
-                        <React.Fragment key={id}>
-                            <div className={classes.hijo_} key={e.date}>
-                                <h5>TITULO</h5>
-                                <p>{e.title}</p>
-                            </div>
-                            <div className={classes.hijo_}>
-                                <h5>DESCRIPCION</h5>
-                                <p>{e.description}</p>
-                            </div>
-                            <div className={classes.hijo_}>
-                                <h5>FECHA</h5>
-                                <p>{e.date}</p>
-                            </div>
-                        </React.Fragment>
-                    )
-                }
-            </div>
+            {
+                showEvents.length ? (
+                    <TableContainer>
+                        <Table >
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Titulo</TableCell>
+                                    <TableCell>Descripción</TableCell>
+                                    <TableCell>Fecha</TableCell>
+                                    <TableCell></TableCell>
+                                    <TableCell></TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {showEvents.map(e =>
+                                    <TableRow>
+                                        <TableCell>{e.title}</TableCell>
+                                        <TableCell>{e.description}</TableCell>
+                                        <TableCell>{e.date}</TableCell>
+                                        <TableCell><Button color="primary" variant="contained">Editar</Button></TableCell>
+                                        <TableCell><Button color="primary" variant="contained">Borrar</Button></TableCell>
+                                    </TableRow>
+                                )}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
+                ) : null
+            }
+
         </>
     )
 }
