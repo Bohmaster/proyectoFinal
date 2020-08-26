@@ -6,6 +6,8 @@ import { DatePicker } from '@material-ui/pickers';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import DateFnsUtils from '@date-io/date-fns';
 import es from 'date-fns/locale/es';
+import moment from 'moment';
+import 'moment/locale/es';
 
 const useStyles = makeStyles({
     contenedor: {
@@ -30,6 +32,8 @@ const useStyles = makeStyles({
         flexGrow: 1,
     },
 })
+
+moment.locale("es")
 
 const Events = () => {
     const classes = useStyles();
@@ -75,7 +79,7 @@ const Events = () => {
     const onChangeHandlerDate = (date) => {
         setEvent({
             ...event,
-            date: date.toDateString()
+            date: date
         })
     }
 
@@ -83,6 +87,7 @@ const Events = () => {
         e.preventDefault();
 
         event.id = events.length
+        event.date = moment(event.date).format('LL')
         console.log(event.id)
 
         const newEvent = events.concat(event);
@@ -96,6 +101,7 @@ const Events = () => {
             ...event,
             title: '',
             description: '',
+            date: new Date()
         })
     }
 
