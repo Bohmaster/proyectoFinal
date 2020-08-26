@@ -163,6 +163,7 @@ const Events = () => {
                                     <TableCell>{e.title}</TableCell>
                                     <TableCell>{e.description}</TableCell>
                                     <TableCell>{e.date}</TableCell>
+                                    <TableCell><Button>Borrar</Button></TableCell>
                                 </TableRow>
                             </React.Fragment>)
                         }
