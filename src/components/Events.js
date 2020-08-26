@@ -38,22 +38,29 @@ const Events = () => {
     const [event, setEvent] = useState({
         title: '',
         description: '',
-        date: new Date().toDateString()
+        date: new Date().toDateString(),
+        id: ''
     })
 
-    const [showEvents, setShowEvents] = useState([]);
+    const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        const fetchEvents = localStorage.getItem('Eventos')
-        const eventsJSON = JSON.parse(fetchEvents)
-        if (eventsJSON) {
-            eventsJSON.map(e => {
-                if (e.date === new Date().toDateString()) {
-                    context.handlerOpenSnackbar()
-                    context.handlerSnackbarAlert('success', `${e.title}, ${e.description}`)
-                }
-            })
+        if (localStorage.length >= 1) {
+            let items = localStorage.getItem('Eventos')
+
+            let objects = JSON.parse(items)
+
+            objects.map(obj => 
+                obj.date === new Date().toDateString() ? (
+                    context.handlerOpenSnackbar(),
+                    context.handlerSnackbarAlert('success', `${obj.title} - ${obj.description}`)
+                ) : null
+            )
+
+            setEvents(objects)
+
         }
+
     }, [])
 
     const onChangeHandler = (e) => {
@@ -75,11 +82,14 @@ const Events = () => {
     const onSubmit = (e) => {
         e.preventDefault();
 
-        const newEvent = showEvents.concat(event);
-        setShowEvents(newEvent);
+        event.id = events.length
+        console.log(event.id)
+
+        const newEvent = events.concat(event);
+        setEvents(newEvent);
 
         localStorage.setItem('Eventos', JSON.stringify(newEvent));
-        console.log(newEvent)
+        console.log(events)
         context.handlerOpenSnackbar();
         context.handlerSnackbarAlert('success', 'Evento agendado')
         setEvent({
@@ -135,34 +145,30 @@ const Events = () => {
                 </Box>
             </form>
             <Divider />
-            {
-                showEvents.length ? (
-                    <TableContainer>
-                        <Table >
-                            <TableHead>
+            <TableContainer>
+                <Table >
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Titulo</TableCell>
+                            <TableCell>Descripción</TableCell>
+                            <TableCell>Fecha</TableCell>
+                            <TableCell></TableCell>
+                            <TableCell></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {events.map(e =>
+                            <React.Fragment key={e.id}>
                                 <TableRow>
-                                    <TableCell>Titulo</TableCell>
-                                    <TableCell>Descripción</TableCell>
-                                    <TableCell>Fecha</TableCell>
-                                    <TableCell></TableCell>
-                                    <TableCell></TableCell>
+                                    <TableCell>{e.title}</TableCell>
+                                    <TableCell>{e.description}</TableCell>
+                                    <TableCell>{e.date}</TableCell>
                                 </TableRow>
-                            </TableHead>
-                            <TableBody>
-                                {showEvents.map(e =>
-                                    <TableRow>
-                                        <TableCell>{e.title}</TableCell>
-                                        <TableCell>{e.description}</TableCell>
-                                        <TableCell>{e.date}</TableCell>
-                                        <TableCell><Button color="primary" variant="contained">Editar</Button></TableCell>
-                                        <TableCell><Button color="primary" variant="contained">Borrar</Button></TableCell>
-                                    </TableRow>
-                                )}
-                            </TableBody>
-                        </Table>
-                    </TableContainer>
-                ) : null
-            }
+                            </React.Fragment>)
+                        }
+                    </TableBody>
+                </Table>
+            </TableContainer>
 
         </>
     )
