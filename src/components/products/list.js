@@ -63,7 +63,7 @@ const ProductList = () => {
     }
 
     const handlerEdit = (id) => {
-        history.push(`/products/${id}`);
+        history.push(`/products/edit/${id}`);
     }
 
     const onSubmit = (e) => {

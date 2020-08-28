@@ -53,9 +53,11 @@ const Events = () => {
             let items = localStorage.getItem('Eventos')
 
             let objects = JSON.parse(items)
+            console.log(objects)
 
             objects.map(obj => 
                 obj.date === new Date().toDateString() ? (
+                    console.log(obj.date),
                     context.handlerOpenSnackbar(),
                     context.handlerSnackbarAlert('success', `${obj.title} - ${obj.description}`)
                 ) : null
@@ -74,6 +76,30 @@ const Events = () => {
             ...event,
             [name]: value
         })
+    }
+
+    const handleDelete = id => () => {
+        const events = JSON.parse(localStorage.getItem('Eventos'));
+
+        // Recorremos el array accediendo al elemento y al index 
+        // de cada iteración.
+        // Luego comparamos el id recibido en el argumento
+        // con el id de cada elemento de la iteración.
+        // Si encontramos un match utilizamos el método splice
+        // que modifica el array eliminando uno o mas elementos
+        // especificando en el primer argumento desde que lugar empieza a borrar
+        // hasta dónde con el segundo argumento
+        events.forEach((event, index) => {
+            if (event.id === id) {
+                events.splice(index, 1);
+            }
+        });
+
+        const stringEvents = JSON.stringify(events);
+
+        localStorage.setItem('Eventos', stringEvents);
+
+        setEvents(events);
     }
 
     const onChangeHandlerDate = (date) => {
@@ -169,7 +195,7 @@ const Events = () => {
                                     <TableCell>{e.title}</TableCell>
                                     <TableCell>{e.description}</TableCell>
                                     <TableCell>{e.date}</TableCell>
-                                    <TableCell><Button>Borrar</Button></TableCell>
+                                    <TableCell><Button onClick={handleDelete(e.id)}>Borrar</Button></TableCell>
                                 </TableRow>
                             </React.Fragment>)
                         }

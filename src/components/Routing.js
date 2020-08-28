@@ -19,7 +19,7 @@ const Routing = () => {
                 ) : null
             }
             <Route
-                exact path='/products/:id'
+                exact path='/products/edit/:id'
                 component={ProductID} />
             <Route
                 exact path='/products/create'
