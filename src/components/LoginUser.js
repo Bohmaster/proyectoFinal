@@ -50,13 +50,13 @@ const LoginUser = () => {
             .then(res => {
                 console.log(res.data);
                 localStorage.setItem('user', JSON.stringify(res.data));
-                context.handlerLogin();
-                context.handlerSnackbarAlert('success', 'Ha iniciado sesion');
+                context.handleLogin();
+                context.handleSnackbarAlert('success', 'Ha iniciado sesion');
             })
             .catch(error => {
                 console.log(error);
-                context.handlerOpenSnackbar();
-                context.handlerSnackbarAlert('error', 'No se pudo iniciar sesión');
+                context.handleOpenSnackbar();
+                context.handleSnackbarAlert('error', 'No se pudo iniciar sesión');
             })
     }
 

@@ -33,37 +33,37 @@ const Main = () => {
         message: ''
     })
 
-    const handlerSnackbarAlert = (status, message) => {
+    const handleSnackbarAlert = (status, message) => {
         setAlert({
             status,
             message
         })
     }
 
-    const handlerOpenLinear = () => {
+    const handleOpenLinear = () => {
         setLoading(true);
     }
 
-    const handlerCloseLinear = () => {
+    const handleCloseLinear = () => {
         setLoading(false);
     }
 
-    const handlerLogin = () => {
+    const handleLogin = () => {
         setLogin(true);
         setOpenSnackbar(true);
     }
 
-    const handlerLogout = () => {
+    const handleLogout = () => {
         localStorage.removeItem('user');
         setLogin(false);
         history.push('/login');
     }
 
-    const handlerOpenSnackbar = () => {
+    const handleOpenSnackbar = () => {
         setOpenSnackbar(true);
     }
 
-    const handlerCloseSnackbar = () => {
+    const handleCloseSnackbar = () => {
         setOpenSnackbar(false);
     }
 
@@ -82,13 +82,13 @@ const Main = () => {
                     loading
                 },
                 login,
-                handlerOpenLinear,
-                handlerCloseLinear,
-                handlerLogin,
-                handlerLogout,
-                handlerSnackbarAlert,
-                handlerOpenSnackbar,
-                handlerCloseSnackbar
+                handleOpenLinear,
+                handleCloseLinear,
+                handleLogin,
+                handleLogout,
+                handleSnackbarAlert,
+                handleOpenSnackbar,
+                handleCloseSnackbar
             }}>
                 {
                     <Switch>
@@ -114,9 +114,9 @@ const Main = () => {
                                     <Snackbar
                                         open={openSnackbar}
                                         autoHideDuration={6000}
-                                        onClose={handlerCloseSnackbar}>
+                                        onClose={handleCloseSnackbar}>
                                         <Alert
-                                            onClose={handlerCloseSnackbar}
+                                            onClose={handleCloseSnackbar}
                                             severity="success">
                                             {alert.message}
                                         </Alert>
@@ -125,9 +125,9 @@ const Main = () => {
                                     <Snackbar
                                         open={openSnackbar}
                                         autoHideDuration={6000}
-                                        onClose={handlerCloseSnackbar}>
+                                        onClose={handleCloseSnackbar}>
                                         <Alert
-                                            onClose={handlerCloseSnackbar}
+                                            onClose={handleCloseSnackbar}
                                             severity="error">
                                             {alert.message}
                                         </Alert>

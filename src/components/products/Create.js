@@ -37,20 +37,20 @@ const CreateProduct = (props) => {
     };
 
     const handleClickUpLoad = () => {
-        context.handlerOpenLinear();
+        context.handleOpenLinear();
         axios.post(`${conf.API_URL}/products`, product)
                 .then(result => {
                     console.log(result.data);
                     setProduct(productDefaultValues);
-                    context.handlerCloseLinear();
-                    context.handlerOpenSnackbar();
-                    context.handlerSnackbarAlert('success', 'Producto creado');
+                    context.handleCloseLinear();
+                    context.handleOpenSnackbar();
+                    context.handleSnackbarAlert('success', 'Producto creado');
                 })
                 .catch(err => {
                     console.log(err)
-                    context.handlerCloseLinear();
-                    context.handlerOpenSnackbar();
-                    context.handlerSnackbarAlert('error', 'No se pudo crear el producto');
+                    context.handleCloseLinear();
+                    context.handleOpenSnackbar();
+                    context.handleSnackbarAlert('error', 'No se pudo crear el producto');
                 }); 
     }
 

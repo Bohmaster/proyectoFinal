@@ -50,16 +50,16 @@ const Events = () => {
 
     useEffect(() => {
         if (localStorage.length >= 1) {
-            let items = localStorage.getItem('Eventos')
+            let items = localStorage.getItem('eventos')
 
             let objects = JSON.parse(items)
             console.log(objects)
 
             objects.map(obj => 
-                obj.date === new Date().toDateString() ? (
+                obj.date === moment(new Date()).format('LL') ? (
                     console.log(obj.date),
-                    context.handlerOpenSnackbar(),
-                    context.handlerSnackbarAlert('success', `${obj.title} - ${obj.description}`)
+                    context.handleOpenSnackbar(),
+                    context.handleSnackbarAlert('success', `${obj.title} - ${obj.description}`)
                 ) : null
             )
 
@@ -79,7 +79,7 @@ const Events = () => {
     }
 
     const handleDelete = id => () => {
-        const events = JSON.parse(localStorage.getItem('Eventos'));
+        const events = JSON.parse(localStorage.getItem('eventos'));
 
         // Recorremos el array accediendo al elemento y al index 
         // de cada iteración.
@@ -97,7 +97,7 @@ const Events = () => {
 
         const stringEvents = JSON.stringify(events);
 
-        localStorage.setItem('Eventos', stringEvents);
+        localStorage.setItem('eventos', stringEvents);
 
         setEvents(events);
     }
@@ -119,10 +119,10 @@ const Events = () => {
         const newEvent = events.concat(event);
         setEvents(newEvent);
 
-        localStorage.setItem('Eventos', JSON.stringify(newEvent));
+        localStorage.setItem('eventos', JSON.stringify(newEvent));
         console.log(events)
-        context.handlerOpenSnackbar();
-        context.handlerSnackbarAlert('success', 'Evento agendado')
+        context.handleOpenSnackbar();
+        context.handleSnackbarAlert('success', 'Evento agendado')
         setEvent({
             ...event,
             title: '',

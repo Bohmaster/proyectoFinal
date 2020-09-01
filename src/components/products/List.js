@@ -62,7 +62,7 @@ const ProductList = () => {
         fetchProducts(page);
     }
 
-    const handlerEdit = (id) => {
+    const handleEdit = (id) => {
         history.push(`/products/edit/${id}`);
     }
 
@@ -81,8 +81,8 @@ const ProductList = () => {
             .then(res => {
                 const data = res.data;
                 if (data.length === 0) {
-                    context.handlerOpenSnackbar();
-                    context.handlerSnackbarAlert('error', 'No se encontró el producto');
+                    context.handleOpenSnackbar();
+                    context.handleSnackbarAlert('error', 'No se encontró el producto');
                 } else {
                     setProducts(res.data)
                 }
@@ -109,7 +109,7 @@ const ProductList = () => {
         Axios.delete(`${conf.API_URL}/products/${id}`)
             .then(response => {
                 console.log(response);
-                getProducts()
+                getProducts();
             })
             .catch(err => console.log(err))
     };
@@ -149,7 +149,7 @@ const ProductList = () => {
                                 <TableCell>{product.price}</TableCell>
                                 <TableCell>
                                     <Button 
-                                        onClick={() => handlerEdit(product.id)} 
+                                        onClick={() => handleEdit(product.id)} 
                                         color="primary" 
                                         variant="outlined"
                                         >

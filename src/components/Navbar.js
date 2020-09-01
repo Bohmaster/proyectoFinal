@@ -24,7 +24,7 @@ const Navbar = () => {
                         className={classes.title} 
                         variant="button" 
                         color="initial">Sistema de gestión</Typography>
-                    <Button color="inherit" onClick={() => context.handlerLogout()}>
+                    <Button color="inherit" onClick={() => context.handleLogout()}>
                         <ExitToAppIcon />
                     </Button>
                 </Toolbar>
