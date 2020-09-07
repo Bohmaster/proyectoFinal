@@ -37,7 +37,8 @@ const Main = () => {
         setAlert({
             status,
             message
-        })
+        });
+        setOpenSnackbar(true);
     }
 
     const handleOpenLinear = () => {
@@ -57,10 +58,6 @@ const Main = () => {
         localStorage.removeItem('user');
         setLogin(false);
         history.push('/login');
-    }
-
-    const handleOpenSnackbar = () => {
-        setOpenSnackbar(true);
     }
 
     const handleCloseSnackbar = () => {
@@ -87,7 +84,6 @@ const Main = () => {
                 handleLogin,
                 handleLogout,
                 handleSnackbarAlert,
-                handleOpenSnackbar,
                 handleCloseSnackbar
             }}>
                 {

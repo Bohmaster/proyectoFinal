@@ -43,13 +43,11 @@ const CreateProduct = (props) => {
                     console.log(result.data);
                     setProduct(productDefaultValues);
                     context.handleCloseLinear();
-                    context.handleOpenSnackbar();
                     context.handleSnackbarAlert('success', 'Producto creado');
                 })
                 .catch(err => {
                     console.log(err)
                     context.handleCloseLinear();
-                    context.handleOpenSnackbar();
                     context.handleSnackbarAlert('error', 'No se pudo crear el producto');
                 }); 
     }

@@ -53,16 +53,13 @@ const Events = () => {
             let items = localStorage.getItem('eventos')
 
             let objects = JSON.parse(items)
-            console.log(objects)
 
-            objects.map(obj => 
+            objects.map(obj =>
                 obj.date === moment(new Date()).format('LL') ? (
-                    console.log(obj.date),
-                    context.handleOpenSnackbar(),
-                    context.handleSnackbarAlert('success', `${obj.title} - ${obj.description}`)
+                    context.handleSnackbarAlert('success', `¡Hoy ${obj.date}, hay eventos agendados!`)
                 ) : null
             )
-
+            
             setEvents(objects)
 
         }
@@ -89,9 +86,12 @@ const Events = () => {
         // que modifica el array eliminando uno o mas elementos
         // especificando en el primer argumento desde que lugar empieza a borrar
         // hasta dónde con el segundo argumento
+
         events.forEach((event, index) => {
+            console.log(index)
             if (event.id === id) {
                 events.splice(index, 1);
+                console.log(index)
             }
         });
 
@@ -121,7 +121,6 @@ const Events = () => {
 
         localStorage.setItem('eventos', JSON.stringify(newEvent));
         console.log(events)
-        context.handleOpenSnackbar();
         context.handleSnackbarAlert('success', 'Evento agendado')
         setEvent({
             ...event,
@@ -172,8 +171,13 @@ const Events = () => {
                         </MuiPickersUtilsProvider>
                     </div>
                 </div>
-                <Box display="flex" justifyContent="flex-end" m={1} p={1}>
-                    <Button type="submit" color="primary" variant="contained">Agendar</Button>
+                <Box display="flex" justifyContent="space-between" alignItems="center" height="80px">
+                    <div>
+                        <h4>EVENTOS AGENDADOS</h4>
+                    </div>
+                    <div>
+                        <Button type="submit" color="primary" variant="contained">Agendar</Button>
+                    </div>
                 </Box>
             </form>
             <Divider />
@@ -189,15 +193,20 @@ const Events = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {events.map(e =>
-                            <React.Fragment key={e.id}>
-                                <TableRow>
-                                    <TableCell>{e.title}</TableCell>
-                                    <TableCell>{e.description}</TableCell>
-                                    <TableCell>{e.date}</TableCell>
-                                    <TableCell><Button onClick={handleDelete(e.id)}>Borrar</Button></TableCell>
-                                </TableRow>
-                            </React.Fragment>)
+                        {events.map(e => 
+                                <React.Fragment key={e.id}>
+                                    <TableRow>
+                                        <TableCell>{e.title}</TableCell>
+                                        <TableCell>{e.description}</TableCell>
+                                        <TableCell>{e.date}</TableCell>
+                                        <TableCell>
+                                            <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
+                                                Borrar
+                                            </Button> 
+                                        </TableCell>
+                                    </TableRow>
+                                </React.Fragment>
+                            )
                         }
                     </TableBody>
                 </Table>

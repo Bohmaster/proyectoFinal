@@ -81,7 +81,6 @@ const ProductList = () => {
             .then(res => {
                 const data = res.data;
                 if (data.length === 0) {
-                    context.handleOpenSnackbar();
                     context.handleSnackbarAlert('error', 'No se encontró el producto');
                 } else {
                     setProducts(res.data)
@@ -95,21 +94,11 @@ const ProductList = () => {
         setSearch(e.target.value);
     };
 
-    const getProducts = () => {
-        Axios.get(`${conf.API_URL}/products`)
-            .then(response => {
-                setProducts(response.data)
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    };
-
-    const eliminarButton = (id) => () => {
+    const handleDelete = (id) => () => {
         Axios.delete(`${conf.API_URL}/products/${id}`)
             .then(response => {
                 console.log(response);
-                getProducts();
+                fetchProducts(1);
             })
             .catch(err => console.log(err))
     };
@@ -151,16 +140,16 @@ const ProductList = () => {
                                     <Button 
                                         onClick={() => handleEdit(product.id)} 
                                         color="primary" 
-                                        variant="outlined"
+                                        variant="contained"
                                         >
                                         Editar
                                     </Button>
                                 </TableCell>
                                 <TableCell>
                                     <Button 
-                                        onClick={eliminarButton(product.id)} 
+                                        onClick={handleDelete(product.id)} 
                                         color="primary" 
-                                        variant="outlined"
+                                        variant="contained"
                                         >
                                         Eliminar
                                     </Button>

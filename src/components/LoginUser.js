@@ -55,7 +55,6 @@ const LoginUser = () => {
             })
             .catch(error => {
                 console.log(error);
-                context.handleOpenSnackbar();
                 context.handleSnackbarAlert('error', 'No se pudo iniciar sesión');
             })
     }
