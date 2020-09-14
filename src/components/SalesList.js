@@ -67,10 +67,9 @@ const SalesList = () => {
                     <MenuItem value="" disabled>
                             Producto
                     </MenuItem>
-                        <MenuItem>{productsName.map(
-                            product => <li>{product.name}</li>
+                        {productsName.map(
+                            product => <MenuItem>{product.name}</MenuItem>
                         )}
-                        </MenuItem>
                     </Select>
                     <FormHelperText>Elegir el producto vendido</FormHelperText>
                 </FormControl>
