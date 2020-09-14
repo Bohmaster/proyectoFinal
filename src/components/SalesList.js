@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { makeStyles } from '@material-ui/core/styles';
 import MenuItem from '@material-ui/core/MenuItem';
+import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -15,72 +16,74 @@ const useStyles = makeStyles((theme) => ({
     selectEmpty: {
         marginTop: theme.spacing(2),
     },
-}));
+}))
+
 
 const SalesList = () => {
     const classes = useStyles();
 
-    const [total, setTotal] = useState('');
-    const [productsName, setProductName] = useState([])
+    const [tipo, setTipo] = useState('');
+    const [productList, setProductList] = useState([]);
+    const [selectedProductId, setSelectedProductId] = useState(null);
 
-    const handleChange = (event) => {
-        setTotal(event.target.value);
+
+    const handleChangeTipo = (event) => {
+        setTipo(event.target.value);
+    };
+
+    const handleChangeProduct = (event) => {
+        setSelectedProductId(event.target.value);
     };
 
     useEffect(() => {
-        axios.get(`${conf.API_URL}/products`)
+        axios.get(`${conf.API_URL}/products/`)
             .then(response => {
-                setProductName(response.data)
+                setProductList(response.data)
             })
             .catch(err => console.log(err))
-    }, []
-    );
+    }, [])
 
     return (
         <div>
-            <FormControl className={classes.formControl}>
+            <FormControl variant="filled" className={classes.formControl}>
+                <InputLabel id="demo-simple-select-filled-label">tipo</InputLabel>
                 <Select
-                    value={total}
-                    onChange={handleChange}
-                    displayEmpty
-                    className={classes.selectEmpty}
-                    inputProps={{ 'aria-label': 'Without label' }}
+                    labelId="demo-simple-select-filled-label"
+                    id="demo-simple-select-filled"
+                    value={tipo}
+                    onChange={handleChangeTipo}
                 >
                     <MenuItem value="" disabled>
-                        Ingreso/Egreso
+                        <em>----</em>
                     </MenuItem>
-
-                    <MenuItem>Ingreso</MenuItem>
-                    <MenuItem>Egreso</MenuItem>
+                    <MenuItem value={0}>Egreso</MenuItem>
+                    <MenuItem value={1}>Ingreso</MenuItem>
                 </Select>
-                <FormHelperText>Indicar el movimiento de caja</FormHelperText>
             </FormControl>
-            <div>
-                <FormControl className={classes.formControl}>
-                    <Select
-                        value={total}
-                        onChange={handleChange}
-                        displayEmpty
-                        className={classes.selectEmpty}
-                        inputProps={{ 'aria-label': 'Without label' }}
-                    >
-                    <MenuItem value="" disabled>
-                            Producto
-                    </MenuItem>
-                        {productsName.map(
-                            product => <MenuItem>{product.name}</MenuItem>
-                        )}
-                    </Select>
-                    <FormHelperText>Elegir el producto vendido</FormHelperText>
-                </FormControl>
-            </div>
-            <div>
-                Los productos son: {productsName.map(
-                product => <li>{product.name}</li>
-            )}
-            </div>
+            {
+                tipo === 1 ?
+                    (
+                        <FormControl variant="filled" className={classes.formControl}>
+                            <InputLabel id="demo-simple-select-filled-label">tipo</InputLabel>
+                            <Select
+                                labelId="demo-simple-select-filled-label"
+                                id="demo-simple-select-filled"
+                                value={selectedProductId}
+                                onChange={handleChangeProduct}
+                            >
+                                <MenuItem value="" disabled>
+                                    <em>----</em>
+                                </MenuItem>
+                                {
+                                    productList.map(product => <MenuItem value={product.id}>{product.name}</MenuItem>)
+                                }
+                            </Select>
+                        </FormControl>
+                    ) :
+                    null
+            }
         </div>
     )
-}
+};
 
 export default SalesList;
