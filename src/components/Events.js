@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, TextField, Divider, Box, TableContainer, TableHead, TableRow, TableCell, TableBody, Table } from '@material-ui/core';
+import { Button, TextField, Divider, Box, TableContainer, TableHead, TableRow, TableCell, TableBody, Table, Modal } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AppContext from '../appContext';
 import { DatePicker } from '@material-ui/pickers';
@@ -8,11 +8,12 @@ import DateFnsUtils from '@date-io/date-fns';
 import es from 'date-fns/locale/es';
 import moment from 'moment';
 import 'moment/locale/es';
+import Axios from 'axios';
+import conf from '../conf';
 
 const useStyles = makeStyles({
     contenedor: {
         display: "flex",
-        flexDirection: "row",
         flexWrap: "wrap",
     },
     hijo: {
@@ -21,7 +22,6 @@ const useStyles = makeStyles({
         margin: "5px",
         padding: "5px",
         display: "flex",
-        flexGrow: 1,
     },
     hijo_: {
         width: "30%",
@@ -29,7 +29,6 @@ const useStyles = makeStyles({
         margin: "5px",
         padding: "5px",
         display: "flex",
-        flexGrow: 1,
     },
 })
 
@@ -40,31 +39,37 @@ const Events = () => {
     const context = useContext(AppContext);
 
     const [event, setEvent] = useState({
-        title: '',
-        description: '',
-        date: new Date().toDateString(),
-        id: ''
+        nombre: '',
+        descripcion: '',
+        fecha: new Date()
     })
 
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
-        if (localStorage.length >= 1) {
-            let items = localStorage.getItem('eventos')
 
-            let objects = JSON.parse(items)
+        
 
-            objects.map(obj =>
-                obj.date === moment(new Date()).format('LL') ? (
-                    context.handleSnackbarAlert('success', `¡Hoy ${obj.date}, hay eventos agendados!`)
-                ) : null
-            )
-            
-            setEvents(objects)
+        Axios.get(`${conf.API_URL}/Eventos`)
+            .then(res => {
+                const eventsData = res.data;
 
-        }
+                setEvents(eventsData);
 
+                const notification = [];
+                
+                eventsData.forEach(e => {
+                    if (moment(e.fecha).format('LL') === moment(new Date()).format('LL')) {
+                        notification.push(e);
+                    }
+                })
+                context.handleSnackbarAlert('info', `Tiene ${notification.length} eventos`);
+                context.handleNotification(notification);
+            })
+            .catch(err => console.log(err));
     }, [])
+
+    
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -76,59 +81,34 @@ const Events = () => {
     }
 
     const handleDelete = id => () => {
-        const events = JSON.parse(localStorage.getItem('eventos'));
-
-        // Recorremos el array accediendo al elemento y al index 
-        // de cada iteración.
-        // Luego comparamos el id recibido en el argumento
-        // con el id de cada elemento de la iteración.
-        // Si encontramos un match utilizamos el método splice
-        // que modifica el array eliminando uno o mas elementos
-        // especificando en el primer argumento desde que lugar empieza a borrar
-        // hasta dónde con el segundo argumento
-
-        events.forEach((event, index) => {
-            console.log(index)
-            if (event.id === id) {
-                events.splice(index, 1);
-                console.log(index)
-            }
-        });
-
-        const stringEvents = JSON.stringify(events);
-
-        localStorage.setItem('eventos', stringEvents);
-
-        setEvents(events);
+        Axios.delete(`${conf.API_URL}/Eventos/${id}`)
+            .then(res => {
+                Axios.get(`${conf.API_URL}/Eventos`)
+                    .then(res => {
+                        setEvents(res.data);
+                    })
+            })
     }
 
     const onChangeHandlerDate = (date) => {
         setEvent({
             ...event,
-            date: date
+            fecha: date
         })
-    }
+    };
 
     const onSubmit = (e) => {
         e.preventDefault();
 
-        event.id = events.length
-        event.date = moment(event.date).format('LL')
-        console.log(event.id)
-
-        const newEvent = events.concat(event);
-        setEvents(newEvent);
-
-        localStorage.setItem('eventos', JSON.stringify(newEvent));
-        console.log(events)
-        context.handleSnackbarAlert('success', 'Evento agendado')
-        setEvent({
-            ...event,
-            title: '',
-            description: '',
-            date: new Date()
-        })
-    }
+        Axios.post(`${conf.API_URL}/Eventos`, event)
+            .then(res => {
+                Axios.get(`${conf.API_URL}/Eventos`)
+                    .then(res => {
+                        setEvents(res.data);
+                        context.handleSnackbarAlert('success', 'Evento agendado');
+                    })
+            })
+    };
 
     return (
         <>
@@ -137,27 +117,27 @@ const Events = () => {
                     <div className={classes.hijo_}>
                         <h5>TITULO</h5>
                         <TextField
-                            name="title"
+                            name="nombre"
                             multiline
                             rowsMax={4}
                             required
                             placeholder="Ingrese título"
                             variant="standard"
                             onChange={onChangeHandler}
-                            value={event.title}
+                            value={event.nombre}
                         />
                     </div>
                     <div className={classes.hijo_}>
                         <h5>DESCRIPCION</h5>
                         <TextField
-                            name="description"
+                            name="descripcion"
                             multiline
                             rowsMax={4}
                             required
                             placeholder="Ingrese tarea"
                             variant="standard"
                             onChange={onChangeHandler}
-                            value={event.description}
+                            value={event.descripcion}
                         />
                     </div>
                     <div className={classes.hijo_}>
@@ -166,7 +146,7 @@ const Events = () => {
                             <DatePicker
                                 format="dd-MM-yyyy"
                                 onChange={(date) => onChangeHandlerDate(date)}
-                                value={event.date}
+                                value={event.fecha}
                             />
                         </MuiPickersUtilsProvider>
                     </div>
@@ -193,16 +173,17 @@ const Events = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {events.map(e => 
+                        {
+                            events.map(e =>
                                 <React.Fragment key={e.id}>
                                     <TableRow>
-                                        <TableCell>{e.title}</TableCell>
-                                        <TableCell>{e.description}</TableCell>
-                                        <TableCell>{e.date}</TableCell>
+                                        <TableCell>{e.nombre}</TableCell>
+                                        <TableCell>{e.descripcion}</TableCell>
+                                        <TableCell>{moment(e.fecha).format('LL')}</TableCell>
                                         <TableCell>
                                             <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
                                                 Borrar
-                                            </Button> 
+                                            </Button>
                                         </TableCell>
                                     </TableRow>
                                 </React.Fragment>
@@ -211,7 +192,6 @@ const Events = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
-
         </>
     )
 }

@@ -13,11 +13,12 @@ const styles = {
 };
 
 const productDefaultValues = {
-    name: '',
-    description: '',
-    price: 0,
-    isImportant: true,
-    created: new Date()
+    nombre: '',
+    descripcion: '',
+    precio: 0,
+    rodado: 'a',
+    color: 'a',
+    stock: '1',
 };
   
 const CreateProduct = (props) => {
@@ -55,9 +56,27 @@ const CreateProduct = (props) => {
     return (
         <div>
             <form noValidate autoComplete="off">
-                <TextField style={styles.textInputMargin} value={product.name} onChange={handleChange} name="name" id="outlined-basic" label="Nombre del Producto" variant="outlined"/>
-                <TextField style={styles.textInputMargin} value={product.description} onChange={handleChange} name="description" id="outlined-basic" label="Descripcion" variant="outlined"/>
-                <TextField style={styles.textInputMargin} value={product.price} onChange={handleChange} name="price" id="outlined-basic" label="Precio" variant="outlined"/>
+                <TextField 
+                    style={styles.textInputMargin} 
+                    value={product.nombre} 
+                    onChange={handleChange} 
+                    name="nombre" 
+                    label="Nombre del Producto" 
+                    variant="outlined"/>
+                <TextField 
+                    style={styles.textInputMargin} 
+                    value={product.descripcion} 
+                    onChange={handleChange} 
+                    name="descripcion" 
+                    label="Descripcion" 
+                    variant="outlined"/>
+                <TextField 
+                    style={styles.textInputMargin} 
+                    value={product.precio} 
+                    onChange={handleChange} 
+                    name="precio" 
+                    label="Precio" 
+                    variant="outlined"/>
             </form>
             <br/>
             <Button onClick={handleClickUpLoad} variant="contained" color="primary" component="span">
