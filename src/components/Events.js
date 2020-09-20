@@ -48,23 +48,19 @@ const Events = () => {
 
     useEffect(() => {
 
-        
-
         Axios.get(`${conf.API_URL}/Eventos`)
             .then(res => {
-                const eventsData = res.data;
+                setEvents(res.data);
 
-                setEvents(eventsData);
-
-                const notification = [];
+                const notifications = [];
                 
-                eventsData.forEach(e => {
+                res.data.forEach(e => {
                     if (moment(e.fecha).format('LL') === moment(new Date()).format('LL')) {
-                        notification.push(e);
+                        notifications.push(e);
                     }
                 })
-                context.handleSnackbarAlert('info', `Tiene ${notification.length} eventos`);
-                context.handleNotification(notification);
+                context.handleSnackbarAlert('info', `Tiene ${notifications.length} eventos`);
+                context.handleNotification(notifications);
             })
             .catch(err => console.log(err));
     }, [])

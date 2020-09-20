@@ -8,6 +8,7 @@ import AppContext, { defaultGlobalState } from '../appContext';
 import MuiAlert from '@material-ui/lab/Alert';
 import LoginUser from '../components/LoginUser';
 import { Modal, Paper } from '@material-ui/core';
+import { NotificationsActiveRounded } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -57,7 +58,7 @@ const Main = () => {
         message: ''
     })
 
-    const [notification, setNotification] = useState([])
+    const [notifications, setNotifications] = useState([])
 
     const handleSnackbarAlert = (status, message) => {
         setAlert({
@@ -99,9 +100,9 @@ const Main = () => {
     };
 
 
-    const handleNotification = (e) => {
-        console.log('handle', e)
-        setNotification(e)
+    const handleNotification = (notifications) => {
+        console.log('handle', notifications)
+        setNotifications(notifications)
     };
 
     const Alert = (props) => {
@@ -109,6 +110,8 @@ const Main = () => {
             <MuiAlert elevation={6} variant="filled" {...props} />
         )
     };
+
+    console.log(notifications)
 
     return (
         <div className={classes.root}>
@@ -189,9 +192,18 @@ const Main = () => {
                         </>
                     )
                 }
-                {
-                    console.log(notification)
-                }
+                <Modal
+                    open={openModal}
+                    close={handleCloseModal}
+                >
+                    <div>
+                        {notifications.map(n =>
+                            <div>
+                                {n.nombre} - {n.descripcion}
+                            </div>
+                        )}
+                    </div>
+                </Modal>
             </AppContext.Provider>
         </div>
     );
