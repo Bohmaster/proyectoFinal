@@ -6,9 +6,13 @@ import Routing from './Routing'
 import { Switch, useHistory } from 'react-router-dom';
 import AppContext, { defaultGlobalState } from '../appContext';
 import MuiAlert from '@material-ui/lab/Alert';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import LoginUser from '../components/LoginUser';
-import { Modal, Paper } from '@material-ui/core';
-import { NotificationsActiveRounded } from '@material-ui/icons';
+
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -20,44 +24,27 @@ const useStyles = makeStyles(theme => ({
         backgroundColor: theme.palette.background.default,
         padding: theme.spacing(3),
     },
-    paper: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: 400,
-        backgroundColor: theme.palette.background.paper,
-        boxShadow: theme.shadows[5],
-        padding: theme.spacing(2, 4, 3),
-    },
-    modal: {
-        display: 'flex',
-        height: 650,
-        alignItems: 'center',
-        justifyContent: 'center',
+    button: {
+        fontSize: "12px",
+        marginTop: "5px",
+        borderRadius: "50px",
+        color: "white",
+        fontWeight: "bold"
     }
 }))
 
-
-
 const Main = () => {
     const classes = useStyles();
-
-
     const history = useHistory();
 
-    const [openModal, setOpenModal] = useState(false);
-
+    const [openDialog, setOpenDialog] = useState(false);
     const [loading, setLoading] = useState(false);
-
     const [login, setLogin] = useState(false);
-
     const [openSnackbar, setOpenSnackbar] = useState(false);
-
     const [alert, setAlert] = useState({
         status: '',
         message: ''
     })
-
     const [notifications, setNotifications] = useState([])
 
     const handleSnackbarAlert = (status, message) => {
@@ -82,7 +69,6 @@ const Main = () => {
     }
 
     const handleLogout = () => {
-        localStorage.removeItem('user');
         setLogin(false);
         history.push('/login');
     }
@@ -91,17 +77,16 @@ const Main = () => {
         setOpenSnackbar(false);
     }
 
-    const handleCloseModal = () => {
-        setOpenModal(false)
+    const handleCloseDialog = () => {
+        setOpenDialog(false)
     };
 
-    const handleOpenModal = () => {
-        setOpenModal(true)
+    const handleOpenDialog = () => {
+        setOpenDialog(true)
     };
 
 
     const handleNotification = (notifications) => {
-        console.log('handle', notifications)
         setNotifications(notifications)
     };
 
@@ -110,8 +95,6 @@ const Main = () => {
             <MuiAlert elevation={6} variant="filled" {...props} />
         )
     };
-
-    console.log(notifications)
 
     return (
         <div className={classes.root}>
@@ -122,7 +105,7 @@ const Main = () => {
                     loading
                 },
                 login,
-                openModal,
+                openDialog,
                 handleOpenLinear,
                 handleCloseLinear,
                 handleLogin,
@@ -181,10 +164,17 @@ const Main = () => {
                                         <Alert
                                             onClose={handleCloseSnackbar}
                                             severity="info">
-                                            {alert.message}
-                                            <Button onClick={handleOpenModal}>
-                                                Ver
-                                            </Button>
+                                            <Box display="flex" flexDirection="column">
+                                                <div>
+                                                    {alert.message}
+                                                </div>
+                                                <Button 
+                                                    onClick={handleOpenDialog} 
+                                                    className={classes.button}
+                                                    >
+                                                    Ver
+                                                </Button>
+                                            </Box>
                                         </Alert>
                                     </Snackbar>
                                 ) : null
@@ -192,18 +182,27 @@ const Main = () => {
                         </>
                     )
                 }
-                <Modal
-                    open={openModal}
-                    close={handleCloseModal}
+                <Dialog
+                    open={openDialog}
+                    keepMounted
+                    onClose={handleCloseDialog}
                 >
-                    <div>
-                        {notifications.map(n =>
-                            <div>
-                                {n.nombre} - {n.descripcion}
-                            </div>
-                        )}
-                    </div>
-                </Modal>
+                    <DialogTitle>{"EVENTOS DEL DÍA"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-slide-description">
+                            {notifications.map(n =>
+                                <div>
+                                    {n.nombre} - {n.descripcion}
+                                </div>
+                            )}
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={handleCloseDialog} color="primary">
+                            Ok
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </AppContext.Provider>
         </div>
     );

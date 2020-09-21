@@ -20,71 +20,65 @@ const ProductID = () => {
 
     const history = useHistory();
 
-    const [prod, setProd] = useState({
-        name: '',
-        description: '',
-        price: '',
-        isImportant: true,
-        created: new Date()
-    })
+    const [product, setProduct] = useState({
+        nombre: '',
+        descripcion: '',
+        precio: 0,
+        rodado: 'a',
+        color: 'a',
+        stock: '1',
+    });
 
     const { id } = useParams();
 
     useEffect(() => {
         Axios.get(`${conf.API_URL}/products/${id}`)
             .then(res => {
-                console.log(res.data)
-                setProd(res.data)
+                setProduct(res.data);
             })
-    }, [id])
+    }, [id]);
 
     const handleChange = (evt) => {
-        setProd({
-            ...prod,
+        setProduct({
+            ...product,
             [evt.target.name]: evt.target.value
         })
     };
 
-    const actualizarButton = () => {
-        Axios.put(`${conf.API_URL}/products/${id}`, prod)
-            .then(response => {
-                history.push('/products')
+    const updateProduct = () => {
+        Axios.put(`${conf.API_URL}/products/${id}`, product)
+            .then(res => {
+                history.push('/products');
             })
     };
 
     return (
         <div>
-            <form className={classes.root} noValidate autoComplete="off">
+            <form className={classes.root}>
                 <TextField
                     onChange={handleChange}
-                    value={prod.name}
-                    name="name"
-                    id="filled-name"
-                    label="Name"
-                    variant="filled"
+                    value={product.nombre}
+                    name="nombre"
+                    label="Nombre"
                 />
                 <TextField
                     onChange={handleChange}
-                    value={prod.description}
-                    name="description"
-                    id="filled-name"
-                    label="Description"
-                    variant="filled"
+                    value={product.descripcion}
+                    name="descripcion"
+                    label="Descripcion"
                 />
                 <TextField
                     onChange={handleChange}
-                    value={prod.price}
-                    name="price"
-                    id="filled-name"
-                    label="price"
-                    variant="filled"
+                    value={product.precio}
+                    name="precio"
+                    label="Precio"
                 />
             </form>
-            <Button onClick={actualizarButton} variant="contained" color="primary">
+            <Button onClick={updateProduct} variant="contained" color="primary">
                 Actualizar
             </Button>
         </div>
-    )
+    );
 }
 
 export default ProductID;

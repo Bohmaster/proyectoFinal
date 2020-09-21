@@ -18,25 +18,22 @@ import {
     Paper,
 } from '@material-ui/core';
 
-
 const ProductList = () => {
 
     const [products, setProducts] = useState([]);
     const [totalProducts, setTotalProducts] = useState(0);
-
     const [search, setSearch] = useState('');
 
     const limit = 5;
-    let offset = 0
+    let offset = 0;
 
     const history = useHistory();
-
     const context = useContext(AppContext);
 
     useEffect(() => {
         fetchProducts(1);
         countProducts();
-    }, [])
+    }, []);
 
     const fetchProducts = (page) => {
         if (page === 1) {
@@ -73,7 +70,7 @@ const ProductList = () => {
             params: {
                 filter: {
                     where: {
-                        name: search
+                        nombre: search
                     }
                 }
             }
@@ -88,7 +85,7 @@ const ProductList = () => {
 
             })
             .catch(error => console.log(error));
-    }
+    };
 
     const onChangeHandler = (e) => {
         setSearch(e.target.value);
@@ -96,8 +93,7 @@ const ProductList = () => {
 
     const handleDelete = (id) => () => {
         Axios.delete(`${conf.API_URL}/products/${id}`)
-            .then(response => {
-                console.log(response);
+            .then(res => {
                 fetchProducts(1);
             })
             .catch(err => console.log(err))
@@ -111,7 +107,7 @@ const ProductList = () => {
                         name='search'
                         variant="standard"
                         onChange={onChangeHandler}
-                        value={search} 
+                        value={search}
                         placeholder="Buscar producto"
                         required />
                     <Button type='submit'>
@@ -133,24 +129,24 @@ const ProductList = () => {
                     <TableBody>
                         {products.map(product =>
                             <TableRow key={product.id}>
-                                <TableCell>{product.name}</TableCell>
-                                <TableCell>{product.description}</TableCell>
-                                <TableCell>{product.price}</TableCell>
+                                <TableCell>{product.nombre}</TableCell>
+                                <TableCell>{product.descripcion}</TableCell>
+                                <TableCell>{product.precio}</TableCell>
                                 <TableCell>
-                                    <Button 
-                                        onClick={() => handleEdit(product.id)} 
-                                        color="primary" 
+                                    <Button
+                                        onClick={() => handleEdit(product.id)}
+                                        color="primary"
                                         variant="contained"
-                                        >
+                                    >
                                         Editar
                                     </Button>
                                 </TableCell>
                                 <TableCell>
-                                    <Button 
-                                        onClick={handleDelete(product.id)} 
-                                        color="primary" 
+                                    <Button
+                                        onClick={handleDelete(product.id)}
+                                        color="primary"
                                         variant="contained"
-                                        >
+                                    >
                                         Eliminar
                                     </Button>
                                 </TableCell>
@@ -163,7 +159,7 @@ const ProductList = () => {
                     changePage={changePage} />
             </TableContainer>
         </div>
-    )
+    );
 }
 
 export default ProductList;

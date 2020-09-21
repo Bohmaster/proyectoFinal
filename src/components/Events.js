@@ -1,5 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Button, TextField, Divider, Box, TableContainer, TableHead, TableRow, TableCell, TableBody, Table, Modal } from '@material-ui/core';
+import {
+    Button,
+    TextField,
+    Divider,
+    Box,
+    TableContainer,
+    TableHead,
+    TableRow,
+    TableCell,
+    TableBody,
+    Table
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import AppContext from '../appContext';
 import { DatePicker } from '@material-ui/pickers';
@@ -12,24 +23,23 @@ import Axios from 'axios';
 import conf from '../conf';
 
 const useStyles = makeStyles({
-    contenedor: {
+    container: {
         display: "flex",
         flexWrap: "wrap",
     },
-    hijo: {
-        width: "20%",
-        flexDirection: "column",
-        margin: "5px",
-        padding: "5px",
+    box: {
         display: "flex",
-    },
-    hijo_: {
         width: "30%",
         flexDirection: "column",
         margin: "5px",
         padding: "5px",
-        display: "flex",
     },
+    tableRow: {
+        background: "#bdbdbd"
+    },
+    tableRoww: {
+        background: "red"
+    }
 })
 
 moment.locale("es")
@@ -47,13 +57,12 @@ const Events = () => {
     const [events, setEvents] = useState([]);
 
     useEffect(() => {
-
         Axios.get(`${conf.API_URL}/Eventos`)
             .then(res => {
                 setEvents(res.data);
 
                 const notifications = [];
-                
+
                 res.data.forEach(e => {
                     if (moment(e.fecha).format('LL') === moment(new Date()).format('LL')) {
                         notifications.push(e);
@@ -62,10 +71,11 @@ const Events = () => {
                 context.handleSnackbarAlert('info', `Tiene ${notifications.length} eventos`);
                 context.handleNotification(notifications);
             })
-            .catch(err => console.log(err));
+            .catch(err => context.handleSnackbarAlert('error', 'No se pudo acceder al servidor'));
     }, [])
 
-    
+    console.log(events)
+
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -82,8 +92,10 @@ const Events = () => {
                 Axios.get(`${conf.API_URL}/Eventos`)
                     .then(res => {
                         setEvents(res.data);
+                        context.handleSnackbarAlert('success', 'Producto eliminado')
                     })
             })
+            .catch(err => context.handleSnackbarAlert('error', 'No se pudo eliminar el producto'))
     }
 
     const onChangeHandlerDate = (date) => {
@@ -103,14 +115,17 @@ const Events = () => {
                         setEvents(res.data);
                         context.handleSnackbarAlert('success', 'Evento agendado');
                     })
+                    .catch(err => {
+                        context.handleSnackbarAlert('error', 'No se pudo agendar el evento');
+                    })
             })
     };
 
     return (
         <>
             <form onSubmit={onSubmit}>
-                <div className={classes.contenedor}>
-                    <div className={classes.hijo_}>
+                <div className={classes.container}>
+                    <div className={classes.box}>
                         <h5>TITULO</h5>
                         <TextField
                             name="nombre"
@@ -123,7 +138,7 @@ const Events = () => {
                             value={event.nombre}
                         />
                     </div>
-                    <div className={classes.hijo_}>
+                    <div className={classes.box}>
                         <h5>DESCRIPCION</h5>
                         <TextField
                             name="descripcion"
@@ -136,7 +151,7 @@ const Events = () => {
                             value={event.descripcion}
                         />
                     </div>
-                    <div className={classes.hijo_}>
+                    <div className={classes.box}>
                         <h5>FECHA</h5>
                         <MuiPickersUtilsProvider utils={DateFnsUtils} locale={es}>
                             <DatePicker
@@ -172,16 +187,42 @@ const Events = () => {
                         {
                             events.map(e =>
                                 <React.Fragment key={e.id}>
-                                    <TableRow>
-                                        <TableCell>{e.nombre}</TableCell>
-                                        <TableCell>{e.descripcion}</TableCell>
-                                        <TableCell>{moment(e.fecha).format('LL')}</TableCell>
-                                        <TableCell>
-                                            <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
-                                                Borrar
-                                            </Button>
-                                        </TableCell>
-                                    </TableRow>
+                                    {
+                                        moment(e.fecha).format('LL') === moment(new Date()).format('LL') ? (
+                                            <TableRow className={classes.tableRow}>
+                                                <TableCell>{e.nombre}</TableCell>
+                                                <TableCell>{e.descripcion}</TableCell>
+                                                <TableCell>{moment(e.fecha).format('LL')}</TableCell>
+                                                <TableCell>
+                                                    <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
+                                                        Borrar
+                                                </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : moment(e.fecha).format('LL') !== moment(new Date()).format('LL') ? (
+                                            <TableRow>
+                                                <TableCell>{e.nombre}</TableCell>
+                                                <TableCell>{e.descripcion}</TableCell>
+                                                <TableCell>{moment(e.fecha).format('LL')}</TableCell>
+                                                <TableCell>
+                                                    <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
+                                                        Borrar
+                                                </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : moment(e.fecha).format('LL') < moment(new Date()).format('LL') ? (
+                                            <TableRow className={classes.tableRoww}>
+                                                <TableCell>{e.nombre}</TableCell>
+                                                <TableCell>{e.descripcion}</TableCell>
+                                                <TableCell>{moment(e.fecha).format('LL')}</TableCell>
+                                                <TableCell>
+                                                    <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
+                                                        Borrar
+                                                </Button>
+                                                </TableCell>
+                                            </TableRow>
+                                        ) : null
+                                    }
                                 </React.Fragment>
                             )
                         }
@@ -189,7 +230,7 @@ const Events = () => {
                 </Table>
             </TableContainer>
         </>
-    )
+    );
 }
 
 export default Events;

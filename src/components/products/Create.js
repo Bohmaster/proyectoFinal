@@ -1,10 +1,9 @@
-import React from 'react';
-import axios from 'axios';
+import React, { useState, useContext } from 'react';
+import Axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import conf from '../../conf';
 import AppContext from '../../appContext';
-import { useContext } from 'react';
 
 const styles = {
     textInputMargin: {
@@ -24,11 +23,9 @@ const productDefaultValues = {
 const CreateProduct = (props) => {
     const context = useContext(AppContext);
 
-    const [product, setProduct] = React.useState(productDefaultValues);
+    const [product, setProduct] = useState(productDefaultValues);
 
     const handleChange = (evt) => {
-        console.log(evt.target.name)
-
         setProduct(
             {
                 ...product,
@@ -39,19 +36,17 @@ const CreateProduct = (props) => {
 
     const handleClickUpLoad = () => {
         context.handleOpenLinear();
-        axios.post(`${conf.API_URL}/products`, product)
-                .then(result => {
-                    console.log(result.data);
+        Axios.post(`${conf.API_URL}/products`, product)
+                .then(res => {
                     setProduct(productDefaultValues);
                     context.handleCloseLinear();
                     context.handleSnackbarAlert('success', 'Producto creado');
                 })
                 .catch(err => {
-                    console.log(err)
                     context.handleCloseLinear();
                     context.handleSnackbarAlert('error', 'No se pudo crear el producto');
                 }); 
-    }
+    };
 
     return (
         <div>
@@ -80,10 +75,10 @@ const CreateProduct = (props) => {
             </form>
             <br/>
             <Button onClick={handleClickUpLoad} variant="contained" color="primary" component="span">
-                Upload
+                Crear Producto
             </Button>
         </div>
-    )
-};
+    );
+}
 
 export default CreateProduct
