@@ -168,10 +168,10 @@ const Main = () => {
                                                 <div>
                                                     {alert.message}
                                                 </div>
-                                                <Button 
-                                                    onClick={handleOpenDialog} 
+                                                <Button
+                                                    onClick={handleOpenDialog}
                                                     className={classes.button}
-                                                    >
+                                                >
                                                     Ver
                                                 </Button>
                                             </Box>
@@ -189,11 +189,11 @@ const Main = () => {
                 >
                     <DialogTitle>{"EVENTOS DEL DÍA"}</DialogTitle>
                     <DialogContent>
-                        <DialogContentText id="alert-dialog-slide-description">
+                        <DialogContentText>
                             {notifications.map(n =>
-                                <div>
-                                    {n.nombre} - {n.descripcion}
-                                </div>
+                                <React.Fragment key={n.id}>
+                                    <h4>{n.nombre}</h4> <p>{n.descripcion}</p>
+                                </React.Fragment>
                             )}
                         </DialogContentText>
                     </DialogContent>

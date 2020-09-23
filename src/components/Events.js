@@ -59,13 +59,24 @@ const Events = () => {
     useEffect(() => {
         Axios.get(`${conf.API_URL}/Eventos`)
             .then(res => {
+
                 setEvents(res.data);
 
                 const notifications = [];
+                const eventsOutOfDate = [];
 
                 res.data.forEach(e => {
                     if (moment(e.fecha).format('LL') === moment(new Date()).format('LL')) {
                         notifications.push(e);
+                    }
+                    if (new Date(e.fecha).getTime() < new Date().setHours(1)) {
+                        Axios.delete(`${conf.API_URL}/Eventos/${e.id}`)
+                            .then(res => {
+                                Axios.get(`${conf.API_URL}/Eventos`)
+                                    .then(res => {
+                                        setEvents(res.data);
+                                    })
+                            })
                     }
                 })
                 context.handleSnackbarAlert('info', `Tiene ${notifications.length} eventos`);
@@ -73,9 +84,6 @@ const Events = () => {
             })
             .catch(err => context.handleSnackbarAlert('error', 'No se pudo acceder al servidor'));
     }, [])
-
-    console.log(events)
-
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -196,7 +204,7 @@ const Events = () => {
                                                 <TableCell>
                                                     <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
                                                         Borrar
-                                                </Button>
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         ) : moment(e.fecha).format('LL') !== moment(new Date()).format('LL') ? (
@@ -207,18 +215,7 @@ const Events = () => {
                                                 <TableCell>
                                                     <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
                                                         Borrar
-                                                </Button>
-                                                </TableCell>
-                                            </TableRow>
-                                        ) : moment(e.fecha).format('LL') < moment(new Date()).format('LL') ? (
-                                            <TableRow className={classes.tableRoww}>
-                                                <TableCell>{e.nombre}</TableCell>
-                                                <TableCell>{e.descripcion}</TableCell>
-                                                <TableCell>{moment(e.fecha).format('LL')}</TableCell>
-                                                <TableCell>
-                                                    <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
-                                                        Borrar
-                                                </Button>
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         ) : null
