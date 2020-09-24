@@ -60,27 +60,22 @@ const Events = () => {
         Axios.get(`${conf.API_URL}/Eventos`)
             .then(res => {
 
-                setEvents(res.data);
-
-                const notifications = [];
-                const eventsOutOfDate = [];
+                const eventsOfToday = [];
+                const otherEvents = []
 
                 res.data.forEach(e => {
                     if (moment(e.fecha).format('LL') === moment(new Date()).format('LL')) {
-                        notifications.push(e);
-                    }
-                    if (new Date(e.fecha).getTime() < new Date().setHours(1)) {
+                        eventsOfToday.push(e);
+                    } else if (new Date(e.fecha).getTime() < new Date().setHours(1)) {
                         Axios.delete(`${conf.API_URL}/Eventos/${e.id}`)
-                            .then(res => {
-                                Axios.get(`${conf.API_URL}/Eventos`)
-                                    .then(res => {
-                                        setEvents(res.data);
-                                    })
-                            })
+                    } else {
+                        otherEvents.push(e);
                     }
                 })
-                context.handleSnackbarAlert('info', `Tiene ${notifications.length} eventos`);
-                context.handleNotification(notifications);
+                setEvents([...eventsOfToday, ...otherEvents]);
+
+                context.handleSnackbarAlert('info', `Tiene ${eventsOfToday.length} eventos`);
+                context.handleNotification(eventsOfToday);
             })
             .catch(err => context.handleSnackbarAlert('error', 'No se pudo acceder al servidor'));
     }, [])

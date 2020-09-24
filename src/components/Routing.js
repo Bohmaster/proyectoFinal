@@ -8,6 +8,7 @@ import SalesList from './SalesList';
 import LoginUser from './LoginUser';
 import ProductID from './products/ProductID';
 import Events from './Events';
+import Dash from './Dashboard';
 
 const Routing = () => {
     const context = useContext(AppContext);
@@ -36,6 +37,12 @@ const Routing = () => {
             <Route
                 exact path='/login'
                 component={LoginUser} />
+            <Route
+                exact path='/'
+                component={Dash}
+            >
+
+            </Route>
         </div>
     );
 }
