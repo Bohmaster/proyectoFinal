@@ -1,14 +1,14 @@
 import React, { useContext } from 'react';
 import { Route } from 'react-router-dom';
 import AppContext from '../appContext';
-import CreateProduct from './products/Create';
+import CreateProduct from './Products/Create';
 import { LinearProgress } from '@material-ui/core';
-import ProductList from './products/List';
+import ProductList from './Products/List';
 import SalesList from './SalesList';
 import LoginUser from './LoginUser';
-import ProductID from './products/ProductID';
+import ProductID from './Products/ProductID';
 import Events from './Events';
-import Dash from './Dashboard';
+import Dashboard from './Dashboard/Dashboard';
 
 const Routing = () => {
     const context = useContext(AppContext);
@@ -39,9 +39,8 @@ const Routing = () => {
                 component={LoginUser} />
             <Route
                 exact path='/'
-                component={Dash}
+                component={Dashboard}
             >
-
             </Route>
         </div>
     );

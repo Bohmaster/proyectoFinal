@@ -10,6 +10,7 @@ const useStyles = makeStyles(theme => ({
     },
     title: {
         flexGrow: 1,
+        fontWeight: "bolder"
     },
 }))
 
@@ -20,9 +21,9 @@ const Navbar = () => {
         <div>
             <AppBar position="fixed" color="primary" className={classes.appBar}>
                 <Toolbar>
-                    <Typography 
-                        className={classes.title} 
-                        variant="button" 
+                    <Typography
+                        className={classes.title}
+                        variant="button"
                         color="initial">Sistema de gestión</Typography>
                     <Button color="inherit" onClick={() => context.handleLogout()}>
                         <ExitToAppIcon />
