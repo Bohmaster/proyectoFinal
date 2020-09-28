@@ -41,17 +41,26 @@ const SalesList = () => {
         showPassword: false,
     });
 
-
     const [tipo, setTipo] = useState('');
     const [productList, setProductList] = useState([]);
     const [selectedProductId, setSelectedProductId] = useState(null);
     const [productosIngresados, setProductosIngresados] = useState([]);
-    const [mostrarListaDeProducto, setMostrarListaDeProducto] = useState(false);
+    const [precio, setPrecio] = useState(0);
+    const [cantidadDeProductos, setCantidadDeProductos] = useState({});
+    const [montoGlobal, setMontoGlobal] = useState(0);
+
+    let montoTotal = 0;
+
+    const handleCantidadDeProductos = (id) => (evt) => {
+        setCantidadDeProductos({
+            ...cantidadDeProductos,
+            [id]: evt.target.value
+        })
+    };
 
     const handleChangeMonto = (prop) => (event) => {
         setValues({ ...values, [prop]: event.target.value });
     };
-
 
     const handleChangeTipo = (event) => {
         setTipo(event.target.value);
@@ -59,6 +68,10 @@ const SalesList = () => {
 
     const handleChangeProduct = (event) => {
         setSelectedProductId(event.target.value);
+        setCantidadDeProductos({
+            ...cantidadDeProductos,
+            [event.target.value]: 1
+        })
     };
 
     useEffect(() => {
@@ -67,23 +80,33 @@ const SalesList = () => {
                 setProductList(response.data)
             })
             .catch(err => console.log(err))
-    }, [])
+    }, []);
 
-    const clickProductosIngresados = (id) => {
-        axios.get(`${conf.API_URL}/products/${id}`)
-            .then(
-                response => {
-                    productosIngresados.push(response)
-                    console.log(productosIngresados)
-                }
-            )
-            .catch(err => console.log(err))
+    useEffect(() => {
+        let total = 0;
+
+        for (let id in cantidadDeProductos) {
+            const cantidad = cantidadDeProductos[id];
+            const precio = productosIngresados.find(productoIngresado => productoIngresado.id == id).precio;
+
+            total += cantidad * precio
+        }
+
+        setMontoGlobal(total)
+    }, [cantidadDeProductos]);
+
+    const clickProductosIngresados = (product) => () => {
+        setProductosIngresados(
+            [...productosIngresados, product]
+        )
     };
-    
+    console.log('productosIngresados', productosIngresados);
+
     return (
         <div>
+            <h1>El monto global es: {montoGlobal}</h1>
             <FormControl variant="filled" className={classes.formControl}>
-                <InputLabel id="demo-simple-select-filled-label">tipo</InputLabel>
+                <InputLabel id="demo-simple-select-filled-label">tipo</InputLabel>  
                 <Select
                     labelId="demo-simple-select-filled-label"
                     id="demo-simple-select-filled"
@@ -113,10 +136,36 @@ const SalesList = () => {
                                         <em>----</em>
                                     </MenuItem>
                                     {
-                                        productList.map(product => <MenuItem onClick={clickProductosIngresados(product.id)} value={product.id}>{product.nombre}1</MenuItem>)
+                                        productList.map(product => <MenuItem onClick={clickProductosIngresados(product)} value={product.id}>{product.nombre}</MenuItem>)
                                     }
                                 </Select>
                             </FormControl>
+                            {
+                                productosIngresados.map(product => {
+                                    const montoProducto = product.precio * cantidadDeProductos[product.id];
+                                    montoTotal += montoProducto
+
+                                    return (
+                                        <div>
+                                            <h1>{product.nombre}</h1>
+                                            <h4>{product.descripcion}</h4>
+                                            <h1>El monto es: {montoProducto}</h1>
+                                            <div>
+                                                <FormControl fullWidth className={classes.margin} variant="outlined">
+                                                    <InputLabel htmlFor="outlined-adornment-amount">Unidades</InputLabel>
+                                                    <OutlinedInput
+                                                        id="outlined-adornment-amount"
+                                                        value={cantidadDeProductos[product.id]}
+                                                        onChange={handleCantidadDeProductos(product.id)}
+                                                        startAdornment={<InputAdornment position="start">Ingresar cantidad:</InputAdornment>}
+                                                        labelWidth={60}
+                                                    />
+                                                </FormControl>
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     ) :
                     null
