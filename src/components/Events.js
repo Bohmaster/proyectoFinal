@@ -59,23 +59,26 @@ const Events = () => {
     useEffect(() => {
         Axios.get(`${conf.API_URL}/Eventos`)
             .then(res => {
-                setEvents(res.data);
 
-                const notifications = [];
+                const eventsOfToday = [];
+                const otherEvents = []
 
                 res.data.forEach(e => {
                     if (moment(e.fecha).format('LL') === moment(new Date()).format('LL')) {
-                        notifications.push(e);
+                        eventsOfToday.push(e);
+                    } else if (new Date(e.fecha).getTime() < new Date().setHours(1)) {
+                        Axios.delete(`${conf.API_URL}/Eventos/${e.id}`)
+                    } else {
+                        otherEvents.push(e);
                     }
                 })
-                context.handleSnackbarAlert('info', `Tiene ${notifications.length} eventos`);
-                context.handleNotification(notifications);
+                setEvents([...eventsOfToday, ...otherEvents]);
+
+                context.handleSnackbarAlert('info', `Tiene ${eventsOfToday.length} eventos`);
+                context.handleNotification(eventsOfToday);
             })
             .catch(err => context.handleSnackbarAlert('error', 'No se pudo acceder al servidor'));
     }, [])
-
-    console.log(events)
-
 
     const onChangeHandler = (e) => {
         const { name, value } = e.target;
@@ -196,7 +199,7 @@ const Events = () => {
                                                 <TableCell>
                                                     <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
                                                         Borrar
-                                                </Button>
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         ) : moment(e.fecha).format('LL') !== moment(new Date()).format('LL') ? (
@@ -207,18 +210,7 @@ const Events = () => {
                                                 <TableCell>
                                                     <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
                                                         Borrar
-                                                </Button>
-                                                </TableCell>
-                                            </TableRow>
-                                        ) : moment(e.fecha).format('LL') < moment(new Date()).format('LL') ? (
-                                            <TableRow className={classes.tableRoww}>
-                                                <TableCell>{e.nombre}</TableCell>
-                                                <TableCell>{e.descripcion}</TableCell>
-                                                <TableCell>{moment(e.fecha).format('LL')}</TableCell>
-                                                <TableCell>
-                                                    <Button onClick={handleDelete(e.id)} variant="contained" color="primary">
-                                                        Borrar
-                                                </Button>
+                                                    </Button>
                                                 </TableCell>
                                             </TableRow>
                                         ) : null
