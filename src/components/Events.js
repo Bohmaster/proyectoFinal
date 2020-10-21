@@ -37,9 +37,6 @@ const useStyles = makeStyles({
     tableRow: {
         background: "#bdbdbd"
     },
-    tableRoww: {
-        background: "red"
-    }
 })
 
 moment.locale("es")

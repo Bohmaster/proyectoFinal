@@ -3,6 +3,7 @@ import { makeStyles, Drawer, List, ListItem, ListItemIcon, ListItemText, MenuIte
 import FastfoodIcon from '@material-ui/icons/Fastfood';
 import AttachMoneyIcon from '@material-ui/icons/AttachMoney';
 import EventIcon from '@material-ui/icons/Event';
+import ContactsIcon from '@material-ui/icons/Contacts';
 import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
@@ -44,26 +45,34 @@ const Fixdrawer = () => {
                 anchor="left">
                 <div className={classes.toolbar}></div>
                 <List component='nav'>
-                        <ListItem button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                    <Link to='/diary' className={classes.link}>
+                        <ListItem button>
                             <ListItemIcon>
-                                <FastfoodIcon />
+                                <ContactsIcon />
                             </ListItemIcon>
-                            <ListItemText primary="Productos" />
+                            <ListItemText primary="Agenda" />
                         </ListItem>
-                        <Menu
-                            id="simple-menu"
-                            anchorEl={anchorEl}
-                            keepMounted
-                            open={Boolean(anchorEl)}
-                            onClose={handleClose}
-                        >
-                            <Link to='/products/create' className={classes.link}>
-                                <MenuItem onClick={handleClose}>Nuevo producto</MenuItem>
-                            </Link>
-                            <Link to='/products' className={classes.link}>
-                                <MenuItem onClick={handleClose}>Lista de productos</MenuItem>
-                            </Link>
-                        </Menu>
+                    </Link>
+                    <ListItem button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+                        <ListItemIcon>
+                            <FastfoodIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Productos" />
+                    </ListItem>
+                    <Menu
+                        id="simple-menu"
+                        anchorEl={anchorEl}
+                        keepMounted
+                        open={Boolean(anchorEl)}
+                        onClose={handleClose}
+                    >
+                        <Link to='/products/create' className={classes.link}>
+                            <MenuItem onClick={handleClose}>Nuevo producto</MenuItem>
+                        </Link>
+                        <Link to='/products' className={classes.link}>
+                            <MenuItem onClick={handleClose}>Lista de productos</MenuItem>
+                        </Link>
+                    </Menu>
 
                     <Link to='/sales' className={classes.link}>
                         <ListItem button>

@@ -48,8 +48,6 @@ const LoginUser = () => {
 
         Axios.post(`${conf.API_URL}/users/login`, credentials)
             .then(res => {
-                console.log(res.data);
-                localStorage.setItem('user', JSON.stringify(res.data));
                 context.handleLogin();
                 context.handleSnackbarAlert('success', 'Ha iniciado sesion');
             })
@@ -91,11 +89,11 @@ const LoginUser = () => {
                         value={credentials.password}
                     />
                     <Button
-                    type="submit"
-                    className={classes.button}
-                    color="primary"
-                    variant="contained"
-                    fullWidth>Sign in</Button>
+                        type="submit"
+                        className={classes.button}
+                        color="primary"
+                        variant="contained"
+                        fullWidth>Sign in</Button>
                 </form>
             </div>
         </Container >
